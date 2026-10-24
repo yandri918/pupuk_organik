@@ -219,12 +219,12 @@ function renderSolidNPKChart(n, p, k, c) {
  scales: {
  y: {
  beginAtZero: true,
- grid: { color: 'rgba(255, 255, 255, 0.05)' },
- ticks: { color: '#94a3b8' }
+ grid: { color: 'rgba(0, 0, 0, 0.06)' },
+ ticks: { color: '#475569' }
  },
  x: {
  grid: { display: false },
- ticks: { color: '#f8fafc' }
+ ticks: { color: '#0f172a' }
  }
  }
  }
@@ -273,19 +273,19 @@ function renderSolidCNDecayChart(initialCN, currentDay) {
  maintainAspectRatio: false,
  plugins: {
  legend: {
- labels: { color: '#cbd5e1' }
+ labels: { color: '#334155' }
  }
  },
  scales: {
  y: {
  min: 5,
  max: Math.max(40, initialCN + 5),
- grid: { color: 'rgba(255, 255, 255, 0.05)' },
- ticks: { color: '#94a3b8' }
+ grid: { color: 'rgba(0, 0, 0, 0.06)' },
+ ticks: { color: '#475569' }
  },
  x: {
  grid: { display: false },
- ticks: { color: '#cbd5e1' }
+ ticks: { color: '#0f172a' }
  }
  }
  }
@@ -709,7 +709,7 @@ function renderEconomicsChart(data) {
  'rgba(239, 68, 68, 0.8)',
  'rgba(16, 185, 129, 0.8)'
  ],
- borderColor: 'rgba(15, 23, 42, 0.8)',
+ borderColor: '#ffffff',
  borderWidth: 2
  }]
  },
@@ -719,7 +719,7 @@ function renderEconomicsChart(data) {
  plugins: {
  legend: {
  position: 'bottom',
- labels: { color: '#cbd5e1' }
+ labels: { color: '#334155' }
  }
  }
  }
