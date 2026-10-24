@@ -99,105 +99,61 @@ POC_RECIPES_DATABASE = [
             "Jahe Merah: 1 kg (Antijamur & penghangat jaringan)",
             "Lengkuas: 1 kg (Antibakteri alami)",
             "Kunyit: 1 kg (Kurkumin pelindung sel tanaman)",
-            "Temulawak: 1 kg (Memacu nafsu makan / penyerapan hara akar)",
-            "Temu Ireng: 1 kg (Anti nematoda / cacing perusak akar)",
-            "Puyang & Kencur: Masing-masing 1 kg (Aroma repellent hama)",
-            "Batang Pisang Cincang: 2 kg (Kalium organik)",
-            "Buah Nanas: 2 buah (Enzim bromelain pelarut dinding sel jamur)",
-            "Urine Sapi/Kambing: 50 Liter",
-            "Decomposer (EM4/ROTAN): 1 Liter"
+            "Temulawak: 1 kg (Peningkat nafsu makan akar)",
+            "Temu Ireng: 1 kg (Anti-nematoda cacing tanah parasit)",
+            "Kencur: 0.5 kg (Minyak atsiri anti-hama)",
+            "Brotowali: 0.5 kg (Rasa pahit pencegah serangga hisap)",
+            "Gula Merah: 2 kg",
+            "Air Kelapa: 15 Liter",
+            "Starter ROTAN / EM4: 500 ml"
         ],
         "fermentation_days": "14 - 21 Hari",
-        "vessel_note": "Drum fermentasi kapasitas 100 Liter.",
+        "vessel_note": "Drum 30-50 Liter.",
         "steps": [
-            "Giling atau parut halus seluruh rimpang empon-empon dan buah nanas.",
-            "Campurkan parutan rimpang bersama cincangan batang pisang dan urine ternak di dalam drum.",
-            "Teknik Pasteurisasi: Didihkan campuran menggunakan pemanas rendam (immersion heater) agar telur hama dan patogen mati.",
-            "Biarkan dingin hingga suhu ruang.",
-            "Inokulasikan 1 Liter dekomposer ROTAN/EM4 ke dalam cairan dingin.",
-            "Tutup drum rapat-rapat secara anaerob selama 14-21 hari.",
-            "Siap digunakan saat bau berubah menjadi aroma jamu segar herbal."
+            "Tumbuk atau giling kasar semua rimpang empon-empon (jangan terlalu halus seperti bubur).",
+            "Rebus rimpang bersama 5 liter air hingga hangat 70-80°C selama 15 menit untuk pasteurisasi media dari telur lalat.",
+            "Dinginkan rebusan hingga benar-benar dingin suhu ruang.",
+            "Masukkan ke dalam drum, tambahkan 15 Liter air kelapa, larutan gula, dan starter mikroba.",
+            "Tutup rapat selama 14-21 hari.",
+            "Gunakan dengan konsentrasi 150-200 ml per tangki 14 Liter disemprotkan rutin 1 minggu sekali pada tanaman cabai, melon, bawang merah."
         ],
         "upgrade_zpt": None
-    },
-    {
-        "id": "poc-sawit-spesial",
-        "title": "Ramuan Spesial Kelapa Sawit (Sex Ratio Balance & Bobot Buah)",
-        "category": "Spesialis Perkebunan Sawit",
-        "highlights": "Mengatasi sawit jantan dominan dan meningkatkan Berat Janjang Rata-rata (BJR) 30-50%.",
-        "materials": [
-            "MOL Daun Gamal / Rumput Hijau: 1 Liter (Sumber Nitrogen kuat)",
-            "ROTAN Generatif (Fosfor-Kalium tinggi): 250 cc",
-            "Air Bersih: 10 - 15 Liter",
-            "Molase / Air Gula: 50 ml"
-        ],
-        "fermentation_days": "Siap racik dari biang matang",
-        "vessel_note": "Ember kocor atau tangki semprot solo.",
-        "steps": [
-            "Untuk Pohon Dominan Bunga Jantan: Larutkan 1L MOL Gamal + 200cc POC ROTAN Generatif dalam 10L air.",
-            "Kocorkan di sekeliling piringan pohon sawit (jarak 0.5 - 1 meter dari pangkal batang).",
-            "Semprotkan 250cc ROTAN per tangki 15L ke pelepah daun dan calon bunga jantan.",
-            "Hasil: Bunga jantan rontok dalam 15 hari dan tunas baru memunculkan bunga betina produktif.",
-            "Untuk Pembesaran Buah: Semprotkan POC ROTAN 250cc per 15L air langsung ke tandan buah 30 hari sebelum panen untuk memacu rendemen minyak dan bobot tandan."
-        ],
-        "upgrade_zpt": None
-    }
-]
-
-MOL_COLLECTION = [
-    {
-        "name": "MOL Bonggol Pisang",
-        "hormone": "Sitokinin Tinggi",
-        "function": "Memicu pertumbuhan tunas baru, anakan padi, dan pembelahan sel akar.",
-        "recipe": "1 kg bonggol pisang dicacah halus + 200 gram gula merah + 2 liter air beras. Fermentasi 7-10 hari."
-    },
-    {
-        "name": "MOL Rebung Bambu",
-        "hormone": "Giberelin Tinggi",
-        "function": "Memicu perpanjangan batang, pembesaran ruas tanaman, dan pematahan dormansi biji.",
-        "recipe": "1 kg rebung bambu muda cacah + 250 gram gula + 3 liter air kelapa. Fermentasi 10 hari."
-    },
-    {
-        "name": "MOL Keong Mas / Bekicot",
-        "hormone": "Asam Amino & Nitrogen Hewani",
-        "function": "Sumber protein tinggi untuk pemulihan tanaman kerdil atau terserang penyakit.",
-        "recipe": "1 kg daging keong mas rebus setengah matang + 1 kg gula kelapa + 2 liter air kelapa + dekomposer. Fermentasi 14 hari."
-    },
-    {
-        "name": "MOL Sabut Kelapa",
-        "hormone": "Kalium Organik Murni",
-        "function": "Pemanis alami buah, mempertebal dinding sel agar tahan hama, dan mencegah kerontokan bunga.",
-        "recipe": "1 kg sabut kelapa kering dipotong kecil + 100 gram gula + 5 liter air. Rendam dan fermentasi 14 hari."
     }
 ]
 
 def calculate_liquid_dosage(req: LiquidDoseRequest) -> LiquidDoseResponse:
-    # Calculation logic based on crop category and method
     crop = req.crop_category.lower()
     method = req.application_method.lower()
     vol = req.volume_liters
+    age = req.target_plant_age_days or 30
 
-    # Standard rule of thumb
-    if "semprot" in method:
-        # Spraying (dilution usually 1:50 to 1:100 or 10-20 cc per Liter)
-        if "sayur" in crop or "semai" in crop:
-            cc_per_liter = 10.0
-            freq = "5 - 7 hari sekali (Pagi 06.30 - 08.30 saat stomata daun terbuka)"
+    if "semprot" in method or "spray" in method or "daun" in method:
+        # Foliar Spraying: safe dilution typically 1:70 to 1:100 (10-15 cc per Liter)
+        # Younger plants need lighter dose to avoid foliar burn
+        if age < 20:
+            cc_per_liter = 7.5
+            freq = "7 hari sekali pada pagi hari (fase bibit)"
         elif "padi" in crop:
             cc_per_liter = 15.0
             freq = "7 - 10 hari sekali pada fase 15, 30, dan 45 HST"
+        elif "sayur" in crop:
+            cc_per_liter = 10.0
+            freq = "5 - 7 hari sekali (semprot kabut halus)"
+        elif "buah" in crop or "palawija" in crop:
+            cc_per_liter = 15.0
+            freq = "7 hari sekali pada awal pembungaan dan pembesaran buah"
         elif "sawit" in crop or "keras" in crop:
             cc_per_liter = 20.0
-            freq = "14 hari sekali disemprotkan ke piringan dan pelepah"
+            freq = "14 hari sekali pada daun piringan bawah"
         else:
-            cc_per_liter = 15.0
-            freq = "7 hari sekali"
+            cc_per_liter = 12.0
+            freq = "7 - 10 hari sekali"
 
         total_poc_cc = vol * cc_per_liter
         ratio = f"1 : {int(1000 / cc_per_liter)}"
 
     else:
-        # Drenching / Kocor Akar (dilution usually 1:20 to 1:40 or 25-50 cc per Liter)
+        # Drenching / Kocor Akar (dilution 1:25 to 1:40 or 25-40 cc per Liter)
         if "sayur" in crop:
             cc_per_liter = 25.0
             freq = "7 - 10 hari sekali (200 ml larutan per lubang tanam)"
@@ -212,10 +168,10 @@ def calculate_liquid_dosage(req: LiquidDoseRequest) -> LiquidDoseResponse:
         ratio = f"1 : {int(1000 / cc_per_liter)}"
 
     tips = [
-        f"Gunakan air non-kaporit (air sumur atau air hujan). Kaporit/klorin membunuh mikroba aktif POC.",
-        f"Selalu aplikasikan di pagi hari (06.00 - 09.00) atau sore hari (15.30 - 17.30) saat suhu tidak terik.",
-        f"Untuk aplikasi semprot daun, semprotkan kabut halus terutama ke bagian bawah daun tempat stomata berada.",
-        f"Bila dicampur dengan perekat alami, gunakan putih telur atau lidah buaya 1 sendok per tangki."
+        "Gunakan air non-kaporit (air sumur atau air hujan). Kaporit/klorin membunuh mikroba aktif POC.",
+        "Selalu aplikasikan di pagi hari (06.00 - 09.00) atau sore hari (15.30 - 17.30) saat stomata daun terbuka.",
+        "Untuk aplikasi semprot daun, semprotkan kabut halus terutama ke bagian bawah permukaan daun.",
+        "Bila dicampur dengan perekat perata alami, gunakan putih telur atau getah lidah buaya 1 sendok per tangki."
     ]
 
     return LiquidDoseResponse(
@@ -236,66 +192,105 @@ def check_liquid_sni(req: LiquidSNIRequest) -> LiquidSNIResponse:
     advice: List[str] = []
     is_pass = True
 
-    # 1. C-Organik (Min 10%)
-    c_pass = req.c_organic_pct >= 10.0
+    # 1. C-Organik (Permentan 261/2019: Min 10%)
+    c_pass = (req.c_organic_pct >= 10.0)
     if not c_pass:
         is_pass = False
-        advice.append("Tingkatkan C-Organik dengan menambah molase atau air kelapa tua pada saat fermentasi.")
+        advice.append(f"C-Organik ({req.c_organic_pct:.2f}%) di bawah batas minimal (10%). Tambahkan molase, air kelapa tua, atau gula merah saat fermentasi.")
+        c_status = "Kurang dari Standar (<10%)"
+    else:
+        c_status = "Lolos SNI"
+
     evals.append(SNICheckResult(
         parameter="C-Organik Cair",
         measured_value=round(req.c_organic_pct, 2),
         standard_range="≥ 10.0",
         unit="%",
-        status="Lolos SNI" if c_pass else "Kurang",
-        note="Standar baku mutu Permentan 261/2019 mensyaratkan C-organik minimal 10%."
+        status=c_status,
+        note="Standar baku mutu Permentan 261/2019 mensyaratkan C-organik cair minimal 10%."
     ))
 
-    # 2. Total N + P2O5 + K2O (2 - 6%)
+    # 2. Total N + P2O5 + K2O (Permentan 261/2019: 2.0 - 6.0%)
     npk_pass = (2.0 <= req.total_npk_pct <= 6.0)
-    if req.total_npk_pct < 2.0:
+    if not npk_pass:
         is_pass = False
-        advice.append("Total hara NPK kurang dari 2%. Tambahkan urine ternak kelinci (N), guano/usus ikan (P), atau abu sabut kelapa (K).")
-    elif req.total_npk_pct > 6.0:
-        advice.append("Total NPK di atas 6%. Pupuk sangat pekat, pastikan rasio pengenceran ditingkatkan saat aplikasi agar daun tidak terbakar.")
+        if req.total_npk_pct < 2.0:
+            npk_status = "Kurang dari Standar (<2.0%)"
+            advice.append(f"Total hara makro ({req.total_npk_pct:.2f}%) kurang dari 2%. Tambahkan urine ternak kelinci (N), guano/jeroan ikan (P), atau abu sabut kelapa (K).")
+        else:
+            npk_status = "Melebihi Batas Standar (>6.0%)"
+            advice.append(f"Total hara makro ({req.total_npk_pct:.2f}%) melebihi 6%. Menurut Permentan 261/2019, POC komersial dibatasi maks 6% untuk mencegah toksisitas dan plasmolisis stomata daun.")
+    else:
+        npk_status = "Lolos SNI"
+
     evals.append(SNICheckResult(
         parameter="Total Hara Makro (N + P2O5 + K2O)",
         measured_value=round(req.total_npk_pct, 2),
         standard_range="2.0 - 6.0",
         unit="%",
-        status="Lolos SNI" if npk_pass else "Di Luar Rentang",
-        note="Rentang standar hara makro pupuk organik cair adalah 2% s/d 6%."
+        status=npk_status,
+        note="Rentang standar hara makro pupuk organik cair nasional adalah 2.0% s/d 6.0%."
     ))
 
-    # 3. Derajat Keasaman (pH: 4 - 9)
+    # 3. Derajat Keasaman (pH: 4.0 - 9.0)
     ph_pass = (4.0 <= req.ph <= 9.0)
     if not ph_pass:
         is_pass = False
-        advice.append("pH pupuk di luar batas aman (4 - 9). Tambahkan air kapur dolomit jika terlalu asam (<4).")
+        advice.append(f"pH pupuk ({req.ph:.2f}) di luar batas aman (4.0 - 9.0). Tambahkan air kapur dolomit/abu kayu jika terlalu asam (<4.0).")
+        ph_status = "Di Luar Batas Standar"
+    else:
+        ph_status = "Lolos SNI"
+
     evals.append(SNICheckResult(
         parameter="Derajat Keasaman (pH)",
         measured_value=round(req.ph, 2),
         standard_range="4.0 - 9.0",
         unit="pH",
-        status="Lolos SNI" if ph_pass else "Di Luar Batas",
-        note="pH ramah mikroba dan jaringan stomata daun."
+        status=ph_status,
+        note="Rentang pH aman untuk jaringan stomata daun dan viabilitas mikroba bermanfaat."
     ))
 
-    # 4. Cemaran Mikroba Salmonella (Harus Negatif)
+    # 4. Cemaran Mikroba Salmonella (Wajib Negatif)
     salm_pass = (req.pathogen_salmonella.strip().lower() == "negatif")
     if not salm_pass:
         is_pass = False
-        advice.append("Terdeteksi Salmonella! Pasteurisasi bahan baku dan pastikan suhu fermentasi mencapai fasa termofilik.")
+        advice.append("Terdeteksi Salmonella sp.! Wajib pasteurisasi bahan baku dan pastikan sanitasi fermentasi terjaga.")
+        salm_status = "Tercemar (Bahaya)"
+    else:
+        salm_status = "Lolos SNI"
+
     evals.append(SNICheckResult(
         parameter="Cemaran Salmonella sp.",
         measured_value=0.0 if salm_pass else 1.0,
         standard_range="Negatif",
         unit="deteksi",
-        status="Lolos SNI" if salm_pass else "Tercemar (Bahaya)",
-        note="Wajib negatif untuk keamanan biologis manusia dan tanaman."
+        status=salm_status,
+        note="Baku mutu mewajibkan cemaran Salmonella negatif untuk keamanan hayati."
     ))
 
+    # 5. Cemaran Mikroba Escherichia coli (Maks < 1x10^2 CFU/ml atau MPN/ml)
+    ecoli_pass = (req.pathogen_ecoli_cfu < 100.0)
+    if not ecoli_pass:
+        is_pass = False
+        advice.append(f"Cemaran E. coli ({req.pathogen_ecoli_cfu:.0f} CFU/ml) melebihi batas baku mutu (< 100 CFU/ml). Lakukan perpanjangan waktu fermentasi atau pasteurisasi.")
+        ecoli_status = "Melebihi Ambang Batas (Tercemar)"
+    else:
+        ecoli_status = "Lolos SNI"
+
+    evals.append(SNICheckResult(
+        parameter="Cemaran Escherichia coli",
+        measured_value=round(req.pathogen_ecoli_cfu, 1),
+        standard_range="< 100",
+        unit="CFU/ml",
+        status=ecoli_status,
+        note="Batas cemaran coliform patogenik E. coli menurut Permentan 261/2019 adalah maksimum < 1x10^2 CFU/ml."
+    ))
+
+    overall = "Memenuhi Standar Mutu POC (Permentan 261/2019)" if is_pass else "Belum Memenuhi Standar Mutu POC (Perlu Tindakan Korektif)"
+
     return LiquidSNIResponse(
-        overall_status="Memenuhi Standar Mutu POC (Permentan 261/2019)" if is_pass else "Perlu Penyempurnaan Formula",
+        overall_status=overall,
+        is_passed=is_pass,
         details=evals,
-        improvement_advice=advice if advice else ["Formula POC Anda telah memenuhi seluruh parameter teknis standar baku mutu nasional!"]
+        improvement_advice=advice if advice else ["Formula POC Anda telah memenuhi seluruh parameter teknis baku mutu Permentan 261/2019."]
     )

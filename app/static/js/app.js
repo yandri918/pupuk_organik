@@ -153,8 +153,10 @@ async function calculateSolidFormula() {
 
 function renderSolidCalculation(data) {
  // 1. Metric Cards
- document.getElementById('solid-weight-metric').textContent = `${data.total_weight_kg.toLocaleString()} kg`;
- document.getElementById('solid-npk-metric').textContent = `${data.final_n_pct}% - ${data.final_p_pct}% - ${data.final_k_pct}%`;
+ document.getElementById('solid-weight-metric').textContent = `${data.total_wet_weight_kg.toLocaleString()} kg`;
+    const weightSub = document.getElementById('solid-weight-sub');
+    if (weightSub) weightSub.textContent = `Basis Kering: ${data.total_dry_weight_kg.toLocaleString()} kg (Kadar Air: ${data.initial_moisture_pct}%)`;
+ document.getElementById('solid-npk-metric').textContent = `${data.dry_basis_n_pct}% - ${data.dry_basis_p2o5_pct}% - ${data.dry_basis_k2o_pct}%`;
  document.getElementById('solid-cn-metric').textContent = `${data.estimated_current_c_n_ratio}:1`;
  document.getElementById('solid-cn-sub').textContent = `Awal: ${data.initial_c_n_ratio}:1`;
  document.getElementById('solid-phase-metric').textContent = data.temperature_range;
@@ -182,7 +184,7 @@ function renderSolidCalculation(data) {
  }
 
  // 4. Update NPK Bar Chart
- renderSolidNPKChart(data.final_n_pct, data.final_p_pct, data.final_k_pct, data.final_carbon_pct);
+ renderSolidNPKChart(data.dry_basis_n_pct, data.dry_basis_p2o5_pct, data.dry_basis_k2o_pct, data.dry_basis_c_pct);
 
  // 5. Update C/N Decay Curve
  renderSolidCNDecayChart(data.initial_c_n_ratio, parseInt(document.getElementById('solid-days-input')?.value || '0'));
@@ -357,7 +359,7 @@ function renderOptimizationResult(data) {
  ${data.materials.map(m => `
  <tr>
  <td><strong>${m.name}</strong></td>
- <td style="color:#34d399; font-weight:700;">${m.recommended_kg} kg</td>
+ <td style="color:#34d399; font-weight:700;">${m.recommended_wet_kg} kg</td>
  <td>${m.percentage}%</td>
  <td style="font-size:0.8rem; color:var(--text-muted);">${m.role}</td>
  </tr>
@@ -381,7 +383,7 @@ function applyOptimizedToInputs(materials) {
  // Apply new values
  materials.forEach(m => {
  const inp = document.querySelector(`.mat-weight-input[data-name="${m.name}"]`);
- if (inp) inp.value = m.recommended_kg;
+ if (inp) inp.value = m.recommended_wet_kg;
  });
 
  // Switch to first subtab
