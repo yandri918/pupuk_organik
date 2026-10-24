@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>AgriSensa BioFertilizer Studio - Platform Pembuatan Pupuk Organik Cerdas</title>
+ <meta name="description" content="Platform modern pembuatan pupuk organik padat (kompos & bokashi) dan pupuk organik cair (POC) ditenagai Python AI & Standar SNI.">
+ <!-- Google Fonts -->
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+ <!-- Chart.js -->
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+
+ <!-- Header Navigation -->
+ <header class="app-header">
+ <div class="container nav-content">
+ <a href="#" class="brand">
+ <div class="brand-icon"></div>
+ <div class="brand-text">
+ <h1>AgriSensa BioFertilizer Studio</h1>
+ <p>Smart Organic Fertilizer & Composting Engine</p>
+ </div>
+ </a>
+ <div class="header-status">
+ <div class="badge-live">
+ <span class="pulse-dot"></span>
+ <span>FastAPI Python Engine: Aktif</span>
+ </div>
+ </div>
+ </div>
+ </header>
+
+ <main class="container">
+ <!-- Hero Section -->
+ <section class="hero-section">
+ <div class="hero-badge"> Platform Khusus Pembuatan Pupuk Organik Generasi Baru</div>
+ <h2 class="hero-title">
+ Formulasi Presisi <span class="gradient-text">Pupuk Organik Padat & Cair</span>
+ </h2>
+ <p class="hero-desc">
+ Dirancang berbasis data sains agrikultur, kalkulasi C/N rasio dinamis, optimasi AI untuk limbah organik, 
+ dan validasi standar mutu SNI untuk hasil pertanian berdaya saing tinggi.
+ </p>
+
+ <!-- Master Tab Navigation -->
+ <div class="master-tabs" id="master-tabs">
+ <button class="tab-btn active" data-target="tab-solid" id="tab-btn-solid">
+ <span class="tab-btn-icon"></span>
+ <span>1. Pupuk Organik Padat (Kompos & Bokashi)</span>
+ </button>
+ <button class="tab-btn" data-target="tab-liquid" id="tab-btn-liquid">
+ <span class="tab-btn-icon"></span>
+ <span>2. Pupuk Organik Cair (POC & Bioaktivator)</span>
+ </button>
+ <button class="tab-btn" data-target="tab-economics" id="tab-btn-economics">
+ <span class="tab-btn-icon"></span>
+ <span>3. Analisis Bisnis & HPP Produksi</span>
+ </button>
+ </div>
+ </section>
+
+ <!-- ========================================== -->
+ <!-- TAB 1: PUPUK ORGANIK PADAT (KOMPOS & BOKASHI) -->
+ <!-- ========================================== -->
+ <section id="tab-solid" class="tab-panel active">
+ <div class="glass-card" style="margin-bottom: 24px;">
+ <div class="sub-tabs solid-sub-tabs">
+ <button class="sub-tab-btn active" data-subtarget="solid-sub-calc"> Smart Formulator & Analisis C/N</button>
+ <button class="sub-tab-btn" data-subtarget="solid-sub-opt"> AI Recipe Optimizer</button>
+ <button class="sub-tab-btn" data-subtarget="solid-sub-recipes"> Ensiklopedia Resep Bokashi</button>
+ </div>
+
+ <!-- Sub-tab 1: Formulator & C/N -->
+ <div id="solid-sub-calc" class="solid-sub-panel">
+ <div class="grid-2">
+ <!-- Left: Material Picker & Weight Config -->
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Racik Bahan Baku Limbah</h3>
+ <span class="card-badge">Live Reactivity</span>
+ </div>
+
+ <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+ Atur berat bahan baku (kg) yang tersedia. Sistem otomatis menghitung akumulasi C, N, P, K, dan rasio C/N awal.
+ </p>
+
+ <div class="materials-selector" id="solid-materials-list">
+ <p style="color:var(--text-muted);">Memuat database bahan...</p>
+ </div>
+
+ <div class="form-group" style="background:rgba(0,0,0,0.25); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
+ <label class="form-label" style="display:flex; justify-content:space-between;">
+ <span>️ Simulasi Durasi Fermentasi:</span>
+ <strong id="solid-days-display" style="color:#38bdf8;">Hari ke-0 (Campuran Awal)</strong>
+ </label>
+ <input type="range" min="0" max="28" value="0" step="1" id="solid-days-input" style="width:100%; accent-color:var(--primary);">
+ <div style="display:flex; justify-content:space-between; font-size:0.75rem; color:var(--text-muted); margin-top:4px;">
+ <span>Hari 0</span>
+ <span>Hari 4 (Termofilik)</span>
+ <span>Hari 14 (Pendinginan)</span>
+ <span>Hari 21+ (Matang SNI)</span>
+ </div>
+ </div>
+ </div>
+
+ <!-- Right: Live Results & Analytics -->
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Evaluasi Kualitas & Profil Hara</h3>
+ <span class="card-badge" id="solid-suitability-badge">Hasil Terkini</span>
+ </div>
+
+ <!-- Metrics -->
+ <div class="grid-4" style="margin-bottom: 20px;">
+ <div class="metric-box">
+ <div class="metric-label">Total Berat</div>
+ <div class="metric-value" id="solid-weight-metric" style="color:#34d399;">0 kg</div>
+ <div class="metric-sub info">Bahan Siap Kompos</div>
+ </div>
+ <div class="metric-box">
+ <div class="metric-label">Profil N-P-K</div>
+ <div class="metric-value" id="solid-npk-metric" style="font-size:1.1rem; color:#38bdf8;">0% - 0% - 0%</div>
+ <div class="metric-sub">Kadar Kering</div>
+ </div>
+ <div class="metric-box">
+ <div class="metric-label">Rasio C/N</div>
+ <div class="metric-value" id="solid-cn-metric" style="color:#facc15;">0:1</div>
+ <div class="metric-sub" id="solid-cn-sub">Awal: -</div>
+ </div>
+ <div class="metric-box">
+ <div class="metric-label">Fase Suhu</div>
+ <div class="metric-value" id="solid-phase-metric" style="font-size:1.0rem; color:#fb7185;">25 - 30 °C</div>
+ <div class="metric-sub" id="solid-phase-sub" style="font-size:0.7rem;">Mesofilik</div>
+ </div>
+ </div>
+
+ <!-- Suitability Note -->
+ <div id="solid-suitability-note" style="background:rgba(16,185,129,0.08); border-left:3px solid var(--primary); padding:10px 14px; border-radius:var(--radius-sm); margin-bottom:16px; font-size:0.9rem;">
+ <strong>Karakter Pupuk:</strong> Masukkan berat bahan untuk evaluasi.
+ </div>
+
+ <!-- Charts Grid -->
+ <div class="grid-2" style="margin-bottom:20px;">
+ <div>
+ <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:4px;">Kadar Unsur Hara Makro (%)</div>
+ <div class="chart-container">
+ <canvas id="solid-npk-canvas"></canvas>
+ </div>
+ </div>
+ <div>
+ <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:4px;">Kurva Penurunan C/N (Degradasi)</div>
+ <div class="chart-container">
+ <canvas id="solid-cn-canvas"></canvas>
+ </div>
+ </div>
+ </div>
+
+ <!-- SNI 19-7030-2004 Compliance Table -->
+ <div>
+ <h4 style="font-size:0.95rem; margin-bottom:8px; color:#cbd5e1;"> Validasi Standar Mutu Kompos (SNI 19-7030-2004)</h4>
+ <table class="sni-table">
+ <thead>
+ <tr>
+ <th>Parameter Mutu</th>
+ <th>Hasil Hitung</th>
+ <th>Baku Mutu SNI</th>
+ <th>Status</th>
+ </tr>
+ </thead>
+ <tbody id="solid-sni-tbody">
+ <tr><td colspan="4" style="text-align:center; color:var(--text-muted);">Menunggu input formula...</td></tr>
+ </tbody>
+ </table>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Sub-tab 2: AI Optimizer -->
+ <div id="solid-sub-opt" class="solid-sub-panel" style="display:none;">
+ <div class="grid-2">
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> AI Formulation Optimizer</h3>
+ <span class="card-badge">Linear Programming & SLSQP</span>
+ </div>
+ <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:16px;">
+ Anda memiliki stok limbah dan ingin tahu <strong>berapa kilogram tiap bahan yang harus dicampur</strong> agar mencapai C/N ratio ideal dan kebutuhan hara tanpa gagal? Biarkan AI yang membaginya secara matematis!
+ </p>
+
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Target Berat Total (kg)</label>
+ <input type="number" id="opt-target-weight" class="form-input" value="1000" step="50">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Target Rasio C/N Awal</label>
+ <input type="number" id="opt-target-cn" class="form-input" value="28.0" step="0.5">
+ <span style="font-size:0.75rem; color:var(--text-muted);">Ideal pengomposan: 25 - 30</span>
+ </div>
+ </div>
+
+ <div class="form-group">
+ <label class="form-label">Prioritas Nutrisi</label>
+ <select id="opt-priority" class="form-select">
+ <option value="balanced">Seimbang (General Purpose / Pembenah Tanah)</option>
+ <option value="high_n">Tinggi Nitrogen (Fase Vegetatif / Sayuran)</option>
+ <option value="high_p">Tinggi Fosfor (Fase Pembungaan / Generatif)</option>
+ <option value="high_k">Tinggi Kalium (Fase Pembesaran Buah & Bobot)</option>
+ </select>
+ </div>
+
+ <div class="form-group">
+ <label class="form-label">Pilih Bahan Baku yang Anda Miliki (Min. 2 Bahan):</label>
+ <div class="grid-2" style="font-size:0.85rem; gap:8px;">
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Sapi" checked> Kotoran Sapi</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Ayam (Broiler/Petelur)" checked> Kotoran Ayam</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Kambing/Domba"> Kotoran Kambing</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Guano (Kotoran Kelelawar)"> Guano Kelelawar</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Sekam Padi Mentah" checked> Sekam Mentah</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Arang Sekam Padi"> Arang Sekam</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Jerami Padi (Cacah)"> Jerami Padi</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Dedak Padi Halus (Katul)" checked> Dedak Padi</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Abu Kayu Dapur"> Abu Kayu</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Dolomit (Kapur Pertanian)"> Dolomit</label>
+ </div>
+ </div>
+
+ <button class="btn btn-primary" id="btn-run-optimizer" style="width:100%; margin-top:10px;">
+ Jalankan AI Optimizer
+ </button>
+ </div>
+
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Rekomendasi Takaran AI</h3>
+ </div>
+ <div id="opt-results-box" style="display:none;"></div>
+ <div id="opt-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
+ <div style="font-size:3rem; margin-bottom:10px;"></div>
+ <p>Klik tombol <strong>"Jalankan AI Optimizer"</strong> untuk memproses formulasi matematis berbasis pembatas C/N dan hara.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Sub-tab 3: Solid Presets -->
+ <div id="solid-sub-recipes" class="solid-sub-panel" style="display:none;">
+ <div class="card-header">
+ <h3 class="card-title"> Koleksi Formula Bokashi Teruji Lapangan</h3>
+ <span class="card-badge">Standar Balittanah & AgriSensa</span>
+ </div>
+ <div id="solid-recipes-container">
+ <p style="color:var(--text-muted);">Memuat resep...</p>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- ========================================== -->
+ <!-- TAB 2: PUPUK ORGANIK CAIR (POC & BIOAKTIVATOR) -->
+ <!-- ========================================== -->
+ <section id="tab-liquid" class="tab-panel">
+ <div class="glass-card" style="margin-bottom: 24px;">
+ <div class="sub-tabs liquid-sub-tabs">
+ <button class="sub-tab-btn active" data-subtarget="liquid-sub-recipes"> Panduan Resep POC Super</button>
+ <button class="sub-tab-btn" data-subtarget="liquid-sub-dose"> Kalkulator Dosis Tangki & Kocor</button>
+ <button class="sub-tab-btn" data-subtarget="liquid-sub-mol"> Bank MOL & Hormon ZPT</button>
+ <button class="sub-tab-btn" data-subtarget="liquid-sub-sni"> Cek Baku Mutu SNI POC</button>
+ </div>
+
+ <!-- Sub-tab 1: POC Recipes -->
+ <div id="liquid-sub-recipes" class="liquid-sub-panel">
+ <div class="card-header">
+ <h3 class="card-title"> Koleksi Resep Pupuk Organik Cair (POC) Premium</h3>
+ <span class="card-badge">Kaya Probiotik & Enzim</span>
+ </div>
+ <div id="liquid-recipes-container">
+ <p style="color:var(--text-muted);">Memuat resep POC...</p>
+ </div>
+ </div>
+
+ <!-- Sub-tab 2: Dose Calculator -->
+ <div id="liquid-sub-dose" class="liquid-sub-panel" style="display:none;">
+ <div class="grid-2">
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Hitung Kebutuhan POC per Tangki</h3>
+ </div>
+ <div class="form-group">
+ <label class="form-label">Jenis Pupuk Cair</label>
+ <select id="dose-poc-type" class="form-select">
+ <option value="POC ROTAN Premium">POC ROTAN Premium (Nutrisi Lengkap)</option>
+ <option value="POC Urine Kelinci (Liquid Gold)">POC Urine Kelinci (Tinggi Nitrogen)</option>
+ <option value="POC Empon-Empon Plus">POC Empon-Empon (Bio-Fungisida & Imun)</option>
+ <option value="POC Spesial Sawit">POC Spesial Sawit (Sex Ratio & BJR)</option>
+ <option value="MOL Hormon Alami">MOL Alami (Auksin/Sitokinin/Giberelin)</option>
+ </select>
+ </div>
+
+ <div class="form-group">
+ <label class="form-label">Komoditas Tanaman</label>
+ <select id="dose-crop" class="form-select">
+ <option value="Sayuran Daun">Sayuran Daun (Bayam, Kangkung, Pakcoy, Selada)</option>
+ <option value="Padi">Tanaman Padi (Fase Vegetatif / Pembentukan Anakan)</option>
+ <option value="Buah & Hortikultura">Hortikultura Buah (Cabai, Tomat, Melon, Semangka)</option>
+ <option value="Tanaman Keras & Sawit">Tanaman Keras / Perkebunan Kelapa Sawit</option>
+ </select>
+ </div>
+
+ <div class="form-group">
+ <label class="form-label">Metode Aplikasi</label>
+ <select id="dose-method" class="form-select">
+ <option value="Semprot Daun (Spraying)">Semprot Daun (Spraying Kabut Halus)</option>
+ <option value="Kocor Akar (Drenching)">Kocor Lubang Tanam / Piringan Akar (Drenching)</option>
+ </select>
+ </div>
+
+ <div class="form-group">
+ <label class="form-label">Kapasitas Tangki / Wadah Air (Liter)</label>
+ <input type="number" id="dose-vol" class="form-input" value="14" min="1" max="1000" step="1">
+ <span style="font-size:0.75rem; color:var(--text-muted);">Standar tangki semprot solo: 14 - 16 Liter</span>
+ </div>
+
+ <button class="btn btn-primary" id="btn-calc-dose" style="width:100%;">
+ Hitung Takaran & Panduan Aplikasi
+ </button>
+ </div>
+
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Rekomendasi Aplikasi & Dosis Presisi</h3>
+ </div>
+ <div id="dose-result-box" style="display:none;"></div>
+ <div id="dose-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
+ <div style="font-size:3rem; margin-bottom:10px;"></div>
+ <p>Tentukan jenis pupuk cair dan komoditas, lalu klik <strong>"Hitung Takaran"</strong> untuk melihat dosis per tangki.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+
+ <!-- Sub-tab 3: MOL Collection -->
+ <div id="liquid-sub-mol" class="liquid-sub-panel" style="display:none;">
+ <div class="card-header">
+ <h3 class="card-title"> Bank Mikro Organisme Lokal (MOL) & Hormon ZPT Nabati</h3>
+ <span class="card-badge">Pemanfaatan Bahan Sekitar</span>
+ </div>
+ <div class="grid-2" id="mol-collection-container">
+ <p style="color:var(--text-muted);">Memuat data MOL...</p>
+ </div>
+ </div>
+
+ <!-- Sub-tab 4: Liquid SNI Check -->
+ <div id="liquid-sub-sni" class="liquid-sub-panel" style="display:none;">
+ <div class="grid-2">
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Uji Mutu Laboratorium POC (Permentan 261/2019)</h3>
+ </div>
+ <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+ Masukkan hasil uji lab sampel POC Anda untuk mengonfirmasi kelayakan komersial dan keamanan biologis sesuai regulasi nasional.
+ </p>
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">C-Organik Cair (%)</label>
+ <input type="number" id="sni-c-organic" class="form-input" value="12.5" step="0.1">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Total N + P₂O₅ + K₂O (%)</label>
+ <input type="number" id="sni-npk" class="form-input" value="3.5" step="0.1">
+ </div>
+ </div>
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Derajat Keasaman (pH)</label>
+ <input type="number" id="sni-ph" class="form-input" value="6.8" step="0.1" min="0" max="14">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Cemaran Salmonella</label>
+ <select id="sni-salmonella" class="form-select">
+ <option value="Negatif">Negatif (Bersih)</option>
+ <option value="Positif">Positif (Tercemar)</option>
+ </select>
+ </div>
+ </div>
+ <button class="btn btn-primary" id="btn-check-liquid-sni" style="width:100%;">
+ Validasi Standar Baku Mutu POC
+ </button>
+ </div>
+
+ <div>
+ <div class="card-header">
+ <h3 class="card-title"> Status Sertifikasi Mutu POC</h3>
+ </div>
+ <div id="liquid-sni-result-box" style="display:none;"></div>
+ <div id="liquid-sni-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
+ <div style="font-size:3rem; margin-bottom:10px;">️</div>
+ <p>Klik tombol validasi untuk mengecek kesesuaian formula POC terhadap Permentan No. 261/KPTS/SR.310/M/4/2019.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+
+ <!-- ========================================== -->
+ <!-- TAB 3: KALKULATOR BISNIS & HPP -->
+ <!-- ========================================== -->
+ <section id="tab-economics" class="tab-panel">
+ <div class="glass-card">
+ <div class="card-header">
+ <h3 class="card-title"> Analisis Kelayakan Finansial & HPP (Harga Pokok Produksi)</h3>
+ <span class="card-badge">Break-Even & Profit Margin</span>
+ </div>
+
+ <div class="grid-2">
+ <div>
+ <div class="form-group">
+ <label class="form-label">Tipe Produk</label>
+ <select id="eco-type" class="form-select">
+ <option value="Padat (kg)">Pupuk Kompos / Bokashi Padat (Satuan: kg)</option>
+ <option value="Cair (Liter)">Pupuk Organik Cair / POC (Satuan: Liter / Botol)</option>
+ </select>
+ </div>
+
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Target Volume Batch</label>
+ <input type="number" id="eco-volume" class="form-input" value="1000" step="50">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Target Harga Jual (Rp / unit)</label>
+ <input type="number" id="eco-price" class="form-input" value="2500" step="100">
+ </div>
+ </div>
+
+ <div style="font-size:0.9rem; font-weight:700; color:#38bdf8; margin:14px 0 8px 0;">Biaya Operasional Batch (OPEX):</div>
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Bahan Baku Utama (Rp)</label>
+ <input type="number" id="eco-raw-cost" class="form-input" value="250000" step="10000">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Bioaktivator & Molase (Rp)</label>
+ <input type="number" id="eco-bio-cost" class="form-input" value="80000" step="5000">
+ </div>
+ </div>
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Upah Tenaga Kerja (Rp)</label>
+ <input type="number" id="eco-labor-cost" class="form-input" value="300000" step="20000">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Kemasan & Energi (Rp)</label>
+ <input type="number" id="eco-pack-cost" class="form-input" value="150000" step="10000">
+ </div>
+ </div>
+
+ <div style="font-size:0.9rem; font-weight:700; color:#facc15; margin:14px 0 8px 0;">Investasi Mesin & Alat (CAPEX):</div>
+ <div class="grid-2">
+ <div class="form-group">
+ <label class="form-label">Total CAPEX Mesin/Alat (Rp)</label>
+ <input type="number" id="eco-capex" class="form-input" value="10000000" step="500000">
+ </div>
+ <div class="form-group">
+ <label class="form-label">Masa Penyusutan (Bulan)</label>
+ <input type="number" id="eco-dep-months" class="form-input" value="36" min="1" max="120">
+ </div>
+ </div>
+
+ <button class="btn btn-primary" id="btn-calc-economics" style="width:100%; margin-top:10px;">
+ Hitung HPP & Kelayakan Usaha
+ </button>
+ </div>
+
+ <div>
+ <div id="eco-results-box" style="display:none;">
+ <div class="grid-2" style="margin-bottom:16px;">
+ <div class="metric-box">
+ <div class="metric-label">HPP Satuan (Unit Cost)</div>
+ <div class="metric-value" id="eco-hpp-val" style="color:#38bdf8;">Rp 0</div>
+ <div class="metric-sub">Biaya Pokok per Unit</div>
+ </div>
+ <div class="metric-box">
+ <div class="metric-label">Laba Bersih per Batch</div>
+ <div class="metric-value" id="eco-profit-val" style="color:#34d399;">Rp 0</div>
+ <div class="metric-sub success" id="eco-margin-val">Margin: 0%</div>
+ </div>
+ </div>
+ <div class="metric-box" style="margin-bottom:16px;">
+ <div class="metric-label">Titik Impas (Break-Even Point)</div>
+ <div class="metric-value" id="eco-bep-val" style="color:#facc15; font-size:1.4rem;">0 Unit</div>
+ <div class="metric-sub">Batas Volume Minimal agar Tidak Rugi</div>
+ </div>
+
+ <div style="margin-bottom:16px;">
+ <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted); margin-bottom:4px;">Komposisi Biaya vs Keuntungan:</div>
+ <div style="height:200px;">
+ <canvas id="eco-chart-canvas"></canvas>
+ </div>
+ </div>
+
+ <div style="background:rgba(0,0,0,0.3); border-radius:var(--radius-sm); padding:14px;">
+ <h4 style="font-size:0.9rem; color:#34d399; margin-bottom:6px;"> Kesimpulan Finansial:</h4>
+ <ul id="eco-insights-list" style="padding-left:18px; font-size:0.85rem; color:#cbd5e1;"></ul>
+ </div>
+ </div>
+
+ <div id="eco-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
+ <div style="font-size:3rem; margin-bottom:10px;"></div>
+ <p>Sesuaikan biaya modal dan harga jual di panel kiri lalu klik <strong>"Hitung HPP & Kelayakan Usaha"</strong>.</p>
+ </div>
+ </div>
+ </div>
+ </div>
+ </section>
+ </main>
+
+ <footer style="text-align:center; padding:24px 0; border-top:1px solid var(--border-subtle); color:var(--text-muted); font-size:0.85rem;">
+ <p>© 2026 <strong>AgriSensa BioFertilizer Studio</strong> • Ditenagai FastAPI Python & Standar SNI Pertanian Organik</p>
+ <p style="margin-top:4px; font-size:0.75rem;">Siap di-deploy ke Render Cloud Platform (Procfile & Dockerfile Ready)</p>
+ </footer>
+
+ <script src="/static/js/app.js"></script>
+</body>
+</html>
