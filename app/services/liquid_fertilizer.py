@@ -121,6 +121,33 @@ POC_RECIPES_DATABASE = [
     }
 ]
 
+MOL_COLLECTION = [
+    {
+        "name": "MOL Bonggol Pisang",
+        "hormone": "Sitokinin Tinggi",
+        "function": "Memicu pertumbuhan tunas baru, anakan padi, dan pembelahan sel akar.",
+        "recipe": "1 kg bonggol pisang dicacah halus + 200 gram gula merah + 2 liter air beras. Fermentasi 7-10 hari."
+    },
+    {
+        "name": "MOL Rebung Bambu",
+        "hormone": "Giberelin Tinggi",
+        "function": "Memicu perpanjangan batang, pembesaran ruas tanaman, dan pematahan dormansi biji.",
+        "recipe": "1 kg rebung bambu muda cacah + 250 gram gula + 3 liter air kelapa. Fermentasi 10 hari."
+    },
+    {
+        "name": "MOL Keong Mas / Bekicot",
+        "hormone": "Asam Amino & Nitrogen Hewani",
+        "function": "Sumber protein tinggi untuk pemulihan tanaman kerdil atau terserang penyakit.",
+        "recipe": "1 kg daging keong mas rebus setengah matang + 1 kg gula kelapa + 2 liter air kelapa + dekomposer. Fermentasi 14 hari."
+    },
+    {
+        "name": "MOL Sabut Kelapa",
+        "hormone": "Kalium Organik Murni",
+        "function": "Pemanis alami buah, mempertebal dinding sel agar tahan hama, dan mencegah kerontokan bunga.",
+        "recipe": "1 kg sabut kelapa kering dipotong kecil + 100 gram gula + 5 liter air. Rendam dan fermentasi 14 hari."
+    }
+]
+
 def calculate_liquid_dosage(req: LiquidDoseRequest) -> LiquidDoseResponse:
     crop = req.crop_category.lower()
     method = req.application_method.lower()
