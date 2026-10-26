@@ -433,204 +433,754 @@ async function initSolidPresets() {
  document.getElementById('btn-run-optimizer')?.addEventListener('click', runSolidOptimizer);
 }
 
-// 3. Liquid Fertilizer Module (Fitur 2: Pupuk Cair & Bioaktivator)
-async function initLiquidModule() {
- const pocContainer = document.getElementById('liquid-recipes-container');
- const molContainer = document.getElementById('mol-collection-container');
+// Global states for POC
+let allPocRecipes = [];
+let allMols = [];
+let troubleshootData = [];
+let tankMixData = [];
+let currentGlobalRecipeVol = 20;
 
- try {
- const res = await fetch('/api/liquid/recipes');
- const data = await res.json();
- const pocRecipes = data.poc_recipes || [];
- const mols = data.mol_collection || [];
+// 3. Enriched Liquid Fertilizer Module (Fitur 2: Pupuk Organik Cair)
+function initLiquidModule() {
+  initPOCBatchBrewModule();
+  initPOCFieldScheduleModule();
+  initPOCRecipesModule();
+  initMOLModule();
+  initPOCTroubleshootModule();
 
- if (pocContainer) {
- pocContainer.innerHTML = '';
- pocRecipes.forEach(poc => {
- const card = document.createElement('div');
- card.className = 'recipe-card';
- card.innerHTML = `
- <div class="recipe-header">
- <div class="recipe-title">${poc.title}</div>
- <span class="recipe-tag">Fermentasi: ${poc.fermentation_days}</span>
- </div>
- <p style="color:#f59e0b; font-size:0.85rem; margin-bottom:10px;"><strong>Kategori:</strong> ${poc.category}</p>
- <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:12px;">${poc.highlights}</p>
- 
- <div style="font-size:0.85rem; font-weight:600; color:#38bdf8; margin-bottom:6px;"> Bahan-Bahan:</div>
- <div class="ingredient-pills">
- ${poc.materials.map(m => `<span class="pill">${m}</span>`).join('')}
- </div>
-
- <div style="font-size:0.85rem; font-weight:600; color:#cbd5e1; margin-bottom:6px;">️ Cara Pembuatan:</div>
- <ol class="step-list">
- ${poc.steps.map(s => `<li>${s}</li>`).join('')}
- </ol>
-
- ${poc.upgrade_zpt ? `
- <div style="margin-top:12px; padding:10px; background:rgba(16,185,129,0.08); border-left:3px solid var(--primary); border-radius:4px; font-size:0.85rem;">
- <strong> Upgrade ZPT & Dosis:</strong><br>
- ${poc.upgrade_zpt.vegetatif ? `• Vegetatif: ${poc.upgrade_zpt.vegetatif}<br>` : ''}
- ${poc.upgrade_zpt.generatif ? `• Generatif: ${poc.upgrade_zpt.generatif}` : ''}
- </div>
- ` : ''}
- `;
- pocContainer.appendChild(card);
- });
- }
-
- if (molContainer) {
- molContainer.innerHTML = '';
- mols.forEach(mol => {
- const div = document.createElement('div');
- div.className = 'recipe-card';
- div.innerHTML = `
- <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
- <strong style="color:#34d399; font-size:1.05rem;">${mol.name}</strong>
- <span class="status-badge pass">${mol.hormone}</span>
- </div>
- <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:8px;">${mol.function}</p>
- <div style="font-size:0.85rem; color:#cbd5e1; background:rgba(0,0,0,0.3); padding:8px 12px; border-radius:6px;">
- <strong>Resep:</strong> ${mol.recipe}
- </div>
- `;
- molContainer.appendChild(div);
- });
- }
-
- } catch (err) {
- console.error('Failed loading liquid recipes:', err);
- }
-
- // Liquid Dose Calculator Event
- document.getElementById('btn-calc-dose')?.addEventListener('click', calculateLiquidDose);
-
- // Liquid SNI Check Event
- document.getElementById('btn-check-liquid-sni')?.addEventListener('click', checkLiquidSNI);
+  // SNI Check
+  document.getElementById('btn-check-liquid-sni')?.addEventListener('click', checkLiquidSNI);
 }
 
+// 3.1 Smart POC Batch Brew Formulator
+function initPOCBatchBrewModule() {
+  const volInput = document.getElementById('brew-vol-input');
+  const purposeSelect = document.getElementById('brew-purpose-select');
+  const ftypeSelect = document.getElementById('brew-ftype-select');
+  const calcBtn = document.getElementById('btn-calc-batch-brew');
+
+  // Quick Preset Chips for Drum Volume
+  const volChips = document.querySelectorAll('#brew-vol-chips .chip-btn');
+  volChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      volChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const vol = chip.getAttribute('data-vol');
+      if (volInput) {
+        volInput.value = vol;
+        calculatePOCBatchBrew();
+      }
+    });
+  });
+
+  calcBtn?.addEventListener('click', calculatePOCBatchBrew);
+  purposeSelect?.addEventListener('change', calculatePOCBatchBrew);
+  ftypeSelect?.addEventListener('change', calculatePOCBatchBrew);
+
+  // Initial calculation
+  calculatePOCBatchBrew();
+}
+
+async function calculatePOCBatchBrew() {
+  const vol = parseFloat(document.getElementById('brew-vol-input')?.value || '100');
+  const purpose = document.getElementById('brew-purpose-select')?.value || 'all_purpose';
+  const ftype = document.getElementById('brew-ftype-select')?.value || 'anaerob';
+
+  const btn = document.getElementById('btn-calc-batch-brew');
+  if (btn) btn.innerHTML = '🧪 Menghitung Formulasi Batch...';
+
+  try {
+    const res = await fetch('/api/liquid/batch-brew', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        drum_volume_liters: vol,
+        purpose: purpose,
+        fermentation_type: ftype
+      })
+    });
+
+    if (!res.ok) throw new Error('Failed to calculate batch brew');
+    const data = await res.json();
+    renderPOCBatchBrewResult(data);
+  } catch (err) {
+    console.error('Batch brew error:', err);
+  } finally {
+    if (btn) btn.innerHTML = 'Hitung Takaran Batch & Panduan Fermentasi';
+  }
+}
+
+function renderPOCBatchBrewResult(data) {
+  const placeholder = document.getElementById('brew-placeholder');
+  const resultsBox = document.getElementById('brew-results-box');
+  const badgePurpose = document.getElementById('brew-badge-purpose');
+
+  if (placeholder) placeholder.style.display = 'none';
+  if (resultsBox) resultsBox.style.display = 'block';
+  if (badgePurpose) badgePurpose.textContent = data.fermentation_type;
+
+  // 1. Metrics
+  document.getElementById('brew-metric-eff').textContent = `${data.effective_liquid_liters} L`;
+  document.getElementById('brew-metric-headspace').textContent = `${data.headspace_liters} L (15%)`;
+  document.getElementById('brew-metric-npk').textContent = data.estimated_npk;
+  document.getElementById('brew-metric-cost').textContent = `Rp ${data.estimated_cost_per_liter.toLocaleString()} / L`;
+
+  // 2. Ingredients Table
+  const tbody = document.getElementById('brew-ingredients-tbody');
+  if (tbody) {
+    tbody.innerHTML = '';
+    data.ingredients.forEach(item => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${item.name}</strong></td>
+        <td style="color:#059669; font-weight:700;">${item.amount} ${item.unit}</td>
+        <td><span class="status-badge pass">${item.category}</span></td>
+        <td style="font-size:0.8rem; color:var(--text-muted);">${item.role}</td>
+        <td style="font-size:0.85rem; color:#475569;">Rp ${item.cost_est.toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // 3. Degas text
+  const degasText = document.getElementById('brew-degas-text');
+  if (degasText) degasText.textContent = data.degassing_protocol;
+
+  // 4. Preparation steps
+  const stepsList = document.getElementById('brew-steps-list');
+  if (stepsList) {
+    stepsList.innerHTML = '';
+    data.preparation_steps.forEach(step => {
+      const li = document.createElement('li');
+      li.textContent = step;
+      stepsList.appendChild(li);
+    });
+  }
+
+  // 5. Indicators
+  const indList = document.getElementById('brew-indicators-list');
+  if (indList) {
+    indList.innerHTML = '';
+    data.maturation_indicators.forEach(ind => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '4px';
+      li.textContent = ind;
+      indList.appendChild(li);
+    });
+  }
+}
+
+// 3.2 Field Scale Scheduler & Dosing
+function initPOCFieldScheduleModule() {
+  const modeBtnField = document.getElementById('mode-btn-field');
+  const modeBtnTank = document.getElementById('mode-btn-tank');
+  const fieldInputs = document.getElementById('schedule-field-inputs');
+  const tankInputs = document.getElementById('schedule-tank-inputs');
+  const fieldResults = document.getElementById('field-schedule-results');
+  const tankResults = document.getElementById('dose-result-box');
+  const placeholder = document.getElementById('schedule-placeholder');
+
+  // Mode Toggle
+  modeBtnField?.addEventListener('click', () => {
+    modeBtnField.className = 'btn btn-sm btn-primary';
+    modeBtnTank.className = 'btn btn-sm btn-secondary';
+    if (fieldInputs) fieldInputs.style.display = 'block';
+    if (tankInputs) tankInputs.style.display = 'none';
+    if (tankResults) tankResults.style.display = 'none';
+    calculateFieldSchedule();
+  });
+
+  modeBtnTank?.addEventListener('click', () => {
+    modeBtnTank.className = 'btn btn-sm btn-primary';
+    modeBtnField.className = 'btn btn-sm btn-secondary';
+    if (fieldInputs) fieldInputs.style.display = 'none';
+    if (tankInputs) tankInputs.style.display = 'block';
+    if (fieldResults) fieldResults.style.display = 'none';
+    if (placeholder) placeholder.style.display = 'block';
+  });
+
+  // Area chips
+  const areaChips = document.querySelectorAll('#field-area-chips .chip-btn');
+  const areaInput = document.getElementById('field-area-input');
+  areaChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      areaChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const area = chip.getAttribute('data-area');
+      if (areaInput) {
+        areaInput.value = area;
+        calculateFieldSchedule();
+      }
+    });
+  });
+
+  document.getElementById('btn-calc-field-schedule')?.addEventListener('click', calculateFieldSchedule);
+  document.getElementById('field-crop-select')?.addEventListener('change', calculateFieldSchedule);
+  document.getElementById('field-tank-cap-select')?.addEventListener('change', calculateFieldSchedule);
+
+  // Tank calc button
+  document.getElementById('btn-calc-dose')?.addEventListener('click', calculateLiquidDose);
+
+  // Initial field schedule run
+  calculateFieldSchedule();
+}
+
+async function calculateFieldSchedule() {
+  const crop = document.getElementById('field-crop-select')?.value || 'Padi Sawah';
+  const area = parseFloat(document.getElementById('field-area-input')?.value || '1000');
+  const tankCap = parseFloat(document.getElementById('field-tank-cap-select')?.value || '16');
+
+  const btn = document.getElementById('btn-calc-field-schedule');
+  if (btn) btn.innerHTML = '📅 Menyusun Jadwal...';
+
+  try {
+    const res = await fetch('/api/liquid/field-schedule', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        crop_name: crop,
+        land_area_sqm: area,
+        tank_capacity_liters: tankCap
+      })
+    });
+
+    if (!res.ok) throw new Error('Failed to generate schedule');
+    const data = await res.json();
+    renderFieldScheduleResult(data);
+  } catch (err) {
+    console.error('Schedule error:', err);
+  } finally {
+    if (btn) btn.innerHTML = 'Susun Kalender Aplikasi & Kebutuhan Musim';
+  }
+}
+
+function renderFieldScheduleResult(data) {
+  const placeholder = document.getElementById('schedule-placeholder');
+  const resultsBox = document.getElementById('field-schedule-results');
+  const badge = document.getElementById('schedule-output-badge');
+
+  if (placeholder) placeholder.style.display = 'none';
+  if (resultsBox) resultsBox.style.display = 'block';
+  if (badge) badge.textContent = `${data.crop_name} (${data.land_area_desc})`;
+
+  // Metrics
+  document.getElementById('field-metric-poc').textContent = `${data.total_seasonal_poc_liters} L`;
+  document.getElementById('field-metric-poc-sub').textContent = `Lahan ${data.land_area_desc}`;
+  document.getElementById('field-metric-water').textContent = `${data.total_seasonal_water_liters} L`;
+  document.getElementById('field-metric-water-sub').textContent = `± ${Math.round(data.total_seasonal_water_liters / data.tank_capacity_liters)} Tangki Total`;
+  document.getElementById('field-metric-rounds').textContent = `${data.total_spraying_rounds} Fase`;
+
+  // Savings
+  const savingsText = document.getElementById('field-savings-text');
+  if (savingsText) savingsText.textContent = data.economic_savings_est;
+
+  // Timeline
+  const container = document.getElementById('field-timeline-container');
+  if (container) {
+    container.innerHTML = '';
+    data.stages.forEach(st => {
+      const item = document.createElement('div');
+      item.className = 'timeline-item';
+      item.innerHTML = `
+        <div class="timeline-header">
+          <div class="timeline-stage-title">${st.stage_name}</div>
+          <span class="timeline-timing">${st.timing}</span>
+        </div>
+        <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:6px;"><strong>🎯 Target Fokus:</strong> ${st.target_focus}</p>
+        <div style="display:flex; flex-wrap:wrap; gap:10px; font-size:0.82rem; background:#f8fafc; padding:8px 10px; border-radius:6px; margin-bottom:6px;">
+          <span>💧 <strong>Dosis per Tangki:</strong> <span style="color:#047857; font-weight:700;">${st.dose_per_tank}</span></span>
+          <span>🚜 <strong>Metode:</strong> ${st.method}</span>
+          <span>⚡ <strong>Volume Musim Ini:</strong> ${st.poc_volume_est} L POC / ${st.water_volume_est} L Air</span>
+        </div>
+        <div style="font-size:0.8rem; color:#64748b;">💡 <em>Catatan: ${st.notes}</em></div>
+      `;
+      container.appendChild(item);
+    });
+  }
+
+  // Rules list
+  const rulesList = document.getElementById('field-rules-list');
+  if (rulesList) {
+    rulesList.innerHTML = '';
+    data.application_rules.forEach(rule => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '4px';
+      li.textContent = rule;
+      rulesList.appendChild(li);
+    });
+  }
+}
+
+// 3.3 Enriched POC Recipes with Filtering, Search & Dynamic Volume Scaling
+async function initPOCRecipesModule() {
+  const container = document.getElementById('liquid-recipes-container');
+  const searchInput = document.getElementById('recipe-search-input');
+  const filterChips = document.querySelectorAll('#recipe-filter-chips .chip-btn');
+  const scaleChips = document.querySelectorAll('#recipe-global-scale-chips .chip-btn');
+  const scaleInput = document.getElementById('recipe-global-scale-input');
+
+  // Scale chips listener
+  scaleChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      scaleChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const val = parseFloat(chip.getAttribute('data-rvol') || '20');
+      currentGlobalRecipeVol = val;
+      if (scaleInput) scaleInput.value = val;
+      filterPOCRecipes();
+    });
+  });
+
+  // Scale input listener
+  scaleInput?.addEventListener('input', () => {
+    const val = parseFloat(scaleInput.value);
+    if (!isNaN(val) && val > 0) {
+      currentGlobalRecipeVol = val;
+      scaleChips.forEach(c => {
+        if (parseFloat(c.getAttribute('data-rvol')) === val) {
+          c.classList.add('active');
+        } else {
+          c.classList.remove('active');
+        }
+      });
+      filterPOCRecipes();
+    }
+  });
+
+  try {
+    const res = await fetch('/api/liquid/recipes');
+    const data = await res.json();
+    allPocRecipes = data.poc_recipes || [];
+    allMols = data.mol_collection || [];
+
+    renderPOCRecipes(allPocRecipes);
+    renderMOLCollection(allMols);
+  } catch (err) {
+    console.error('Failed to load POC recipes:', err);
+    if (container) container.innerHTML = '<p style="color:var(--danger);">Gagal memuat resep POC dari server.</p>';
+  }
+
+  // Search filter
+  searchInput?.addEventListener('input', () => {
+    filterPOCRecipes();
+  });
+
+  // Category chip filter
+  filterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      filterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      filterPOCRecipes();
+    });
+  });
+}
+
+function filterPOCRecipes() {
+  const query = document.getElementById('recipe-search-input')?.value.toLowerCase().trim() || '';
+  const activeChip = document.querySelector('#recipe-filter-chips .chip-btn.active');
+  const category = activeChip?.getAttribute('data-filter') || 'all';
+
+  const filtered = allPocRecipes.filter(r => {
+    const matchQuery = !query || r.title.toLowerCase().includes(query) || r.materials.some(m => m.toLowerCase().includes(query)) || r.highlights.toLowerCase().includes(query);
+    let matchCat = true;
+    if (category === 'vegetatif') matchCat = r.category.toLowerCase().includes('vegetatif') || r.title.toLowerCase().includes('vegetatif') || r.title.toLowerCase().includes('urine') || r.title.toLowerCase().includes('amino');
+    else if (category === 'generatif') matchCat = r.category.toLowerCase().includes('generatif') || r.category.toLowerCase().includes('bunga') || r.title.toLowerCase().includes('kalium');
+    else if (category === 'proteksi') matchCat = r.category.toLowerCase().includes('proteksi') || r.category.toLowerCase().includes('imun') || r.title.toLowerCase().includes('empon') || r.title.toLowerCase().includes('silika');
+    else if (category === 'spesialis') matchCat = r.title.toLowerCase().includes('psb') || r.title.toLowerCase().includes('eco enzyme') || r.title.toLowerCase().includes('jakaba') || r.category.toLowerCase().includes('enzim');
+
+    return matchQuery && matchCat;
+  });
+
+  renderPOCRecipes(filtered);
+}
+
+function renderPOCRecipes(recipes) {
+  const container = document.getElementById('liquid-recipes-container');
+  if (!container) return;
+
+  if (recipes.length === 0) {
+    container.innerHTML = '<p style="text-align:center; padding:30px; color:var(--text-muted);">Tidak ada resep POC yang cocok dengan filter pencarian.</p>';
+    return;
+  }
+
+  container.innerHTML = '';
+  recipes.forEach(poc => {
+    const baseLiters = poc.base_batch_liters || 10.0;
+    const scaleFactor = currentGlobalRecipeVol / baseLiters;
+    const isScaled = Math.abs(scaleFactor - 1.0) > 0.001;
+
+    // Render scaled ingredients if structured data is available
+    let ingredientsHtml = '';
+    if (poc.ingredients_structured && poc.ingredients_structured.length > 0) {
+      ingredientsHtml = poc.ingredients_structured.map(ing => {
+        const scaledQty = ing.amount * scaleFactor;
+        let formattedQty;
+        if (scaledQty >= 10) {
+          formattedQty = Number.isInteger(scaledQty) ? scaledQty : scaledQty.toFixed(1);
+        } else if (scaledQty >= 1) {
+          formattedQty = Number.isInteger(scaledQty) ? scaledQty : scaledQty.toFixed(2).replace(/\.?0+$/, '');
+        } else {
+          formattedQty = scaledQty.toFixed(2).replace(/\.?0+$/, '');
+        }
+        return `<span class="pill" style="background:#ecfdf5; border-color:#a7f3d0; color:#064e3b; font-size:0.83rem; padding:4px 10px;"><strong>${ing.name}:</strong> <span style="font-weight:700; color:#047857;">${formattedQty}</span> ${ing.unit}</span>`;
+      }).join('');
+    } else {
+      // Fallback
+      ingredientsHtml = poc.materials.map(m => `<span class="pill">${m}</span>`).join('');
+    }
+
+    const card = document.createElement('div');
+    card.className = 'recipe-card';
+    card.innerHTML = `
+      <div class="recipe-header">
+        <div class="recipe-title">${poc.title}</div>
+        <span class="recipe-tag">⏱️ Fermentasi: ${poc.fermentation_days}</span>
+      </div>
+      <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px; margin-bottom:8px;">
+        <span style="color:#d97706; font-size:0.85rem; font-weight:600;">🏷️ Kategori: ${poc.category}</span>
+        <span style="background:${isScaled ? '#fef3c7' : '#e0f2fe'}; color:${isScaled ? '#92400e' : '#0369a1'}; border:1px solid ${isScaled ? '#fde68a' : '#bae6fd'}; border-radius:20px; padding:3px 12px; font-size:0.8rem; font-weight:700;">
+          📏 Skala: ${currentGlobalRecipeVol} L (${isScaled ? scaleFactor.toFixed(2) + 'x Resep Acuan ' + baseLiters + 'L' : 'Formula Acuan'})
+        </span>
+      </div>
+      <p style="color:var(--text-muted); font-size:0.88rem; margin-bottom:12px;">${poc.highlights}</p>
+      
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <div style="font-size:0.85rem; font-weight:700; color:#059669;">🌿 Takaran Bahan Dinamis (${currentGlobalRecipeVol} Liter):</div>
+        <span style="font-size:0.75rem; color:#64748b; font-style:italic;">Proporsional otomatis</span>
+      </div>
+      <div class="ingredient-pills" style="margin-bottom:12px;">
+        ${ingredientsHtml}
+      </div>
+
+      <div style="font-size:0.85rem; font-weight:600; color:#334155; margin-bottom:6px;">🛠️ Cara Pembuatan:</div>
+      <ol class="step-list">
+        ${poc.steps.map(s => `<li>${s}</li>`).join('')}
+      </ol>
+
+      ${poc.upgrade_zpt ? `
+        <div style="margin-top:12px; padding:10px; background:#ecfdf5; border-left:3px solid #059669; border-radius:4px; font-size:0.85rem; color:#064e3b;">
+          <strong>⚡ Panduan Upgrade ZPT & Dosis:</strong><br>
+          ${poc.upgrade_zpt.vegetatif ? `• Vegetatif: ${poc.upgrade_zpt.vegetatif}<br>` : ''}
+          ${poc.upgrade_zpt.generatif ? `• Generatif: ${poc.upgrade_zpt.generatif}<br>` : ''}
+          ${poc.upgrade_zpt.all_purpose ? `• Dosis Umum: ${poc.upgrade_zpt.all_purpose}` : ''}
+        </div>
+      ` : ''}
+
+      <div style="margin-top:14px; padding-top:12px; border-top:1px dashed #cbd5e1; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+        <span style="font-size:0.82rem; color:#64748b;">Ingin meracik formula ini dalam drum besar?</span>
+        <button type="button" class="btn btn-sm btn-secondary btn-load-to-brew" 
+          data-recipe-title="${poc.title}" 
+          data-recipe-cat="${poc.category}" 
+          style="font-size:0.8rem; padding:5px 12px; font-weight:600;">
+          🚀 Muat ke Formulator Drum (${currentGlobalRecipeVol} L)
+        </button>
+      </div>
+    `;
+
+    // Add listener to the "Muat ke Formulator Drum" button
+    const loadBtn = card.querySelector('.btn-load-to-brew');
+    loadBtn?.addEventListener('click', () => {
+      loadRecipeToDrumFormulator(poc, currentGlobalRecipeVol);
+    });
+
+    container.appendChild(card);
+  });
+}
+
+function loadRecipeToDrumFormulator(poc, vol) {
+  // 1. Switch to sub-tab 1 (liquid-sub-brew)
+  const brewSubTabBtn = document.querySelector('.liquid-sub-tabs .sub-tab-btn[data-subtarget="liquid-sub-brew"]');
+  if (brewSubTabBtn) {
+    brewSubTabBtn.click();
+  }
+
+  // 2. Set drum volume input and sync preset chips
+  const volInput = document.getElementById('brew-vol-input');
+  if (volInput) {
+    volInput.value = vol;
+  }
+  const volChips = document.querySelectorAll('#brew-vol-chips .chip-btn');
+  volChips.forEach(c => {
+    if (parseFloat(c.getAttribute('data-vol')) === vol) {
+      c.classList.add('active');
+    } else {
+      c.classList.remove('active');
+    }
+  });
+
+  // 3. Set purpose select based on recipe category
+  const purposeSelect = document.getElementById('brew-purpose-select');
+  if (purposeSelect) {
+    const cat = (poc.category || '').toLowerCase();
+    const title = (poc.title || '').toLowerCase();
+    if (cat.includes('vegetatif') || title.includes('urine') || title.includes('amino') || title.includes('daun')) {
+      purposeSelect.value = 'vegetatif';
+    } else if (cat.includes('generatif') || cat.includes('bunga') || title.includes('kalium') || title.includes('buah')) {
+      purposeSelect.value = 'generatif';
+    } else if (cat.includes('proteksi') || cat.includes('imun') || title.includes('silika') || title.includes('empon')) {
+      purposeSelect.value = 'proteksi';
+    } else {
+      purposeSelect.value = 'all_purpose';
+    }
+  }
+
+  // 4. Trigger calculation
+  calculatePOCBatchBrew();
+
+  // 5. Smooth scroll to formulator
+  document.getElementById('liquid-sub-brew')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// 3.4 MOL Collection & ZPT Bank
+function initMOLModule() {
+  const molFilterChips = document.querySelectorAll('#mol-filter-chips .chip-btn');
+  molFilterChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      molFilterChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const cat = chip.getAttribute('data-molfilter') || 'all';
+
+      const filtered = allMols.filter(m => {
+        if (cat === 'all') return true;
+        if (cat === 'sitokinin') return m.hormone.toLowerCase().includes('sitokinin');
+        if (cat === 'giberelin') return m.hormone.toLowerCase().includes('giberelin');
+        if (cat === 'kalium') return m.hormone.toLowerCase().includes('kalium');
+        if (cat === 'nitrogen') return m.hormone.toLowerCase().includes('nitrogen') || m.hormone.toLowerCase().includes('amino');
+        if (cat === 'proteksi') return m.hormone.toLowerCase().includes('fungisida') || m.hormone.toLowerCase().includes('enzim') || (m.category && m.category.toLowerCase().includes('proteksi'));
+        return true;
+      });
+
+      renderMOLCollection(filtered);
+    });
+  });
+}
+
+function renderMOLCollection(mols) {
+  const molContainer = document.getElementById('mol-collection-container');
+  if (!molContainer) return;
+
+  molContainer.innerHTML = '';
+  mols.forEach(mol => {
+    const div = document.createElement('div');
+    div.className = 'recipe-card';
+    div.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;">
+        <strong style="color:#059669; font-size:1.05rem;">${mol.name}</strong>
+        <span class="status-badge pass">${mol.hormone}</span>
+      </div>
+      <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:10px;">${mol.function}</p>
+      <div style="font-size:0.85rem; color:#1e293b; background:#f8fafc; border:1px solid #e2e8f0; padding:10px 12px; border-radius:6px;">
+        <strong style="color:#047857;">🧪 Resep & Cara Biakan:</strong><br>
+        ${mol.recipe}
+      </div>
+    `;
+    molContainer.appendChild(div);
+  });
+}
+
+// 3.5 Doctor POC & Tank-Mix Module
+async function initPOCTroubleshootModule() {
+  const symptomSelect = document.getElementById('trouble-symptom-select');
+  const mixContainer = document.getElementById('tank-mix-container');
+
+  try {
+    // 1. Fetch troubleshooting data
+    const resT = await fetch('/api/liquid/troubleshooting');
+    troubleshootData = await resT.json();
+
+    symptomSelect?.addEventListener('change', () => {
+      displayTroubleshootDetail(symptomSelect.value);
+    });
+
+    if (troubleshootData.length > 0) {
+      displayTroubleshootDetail(troubleshootData[0].id);
+    }
+
+    // 2. Fetch tank-mix data
+    const resM = await fetch('/api/liquid/tank-mix-guide');
+    tankMixData = await resM.json();
+
+    if (mixContainer) {
+      mixContainer.innerHTML = '';
+      tankMixData.forEach(item => {
+        let badgeClass = 'risk-safe';
+        if (item.status.includes('DILARANG')) badgeClass = 'risk-danger';
+        else if (item.status.includes('Syarat')) badgeClass = 'risk-warning';
+
+        const card = document.createElement('div');
+        card.style.cssText = 'background:#ffffff; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:12px; margin-bottom:8px;';
+        card.innerHTML = `
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:6px;">
+            <strong style="font-size:0.9rem; color:#0f172a;">${item.partner_material}</strong>
+            <span class="risk-badge ${badgeClass}">${item.status}</span>
+          </div>
+          <div style="font-size:0.82rem; color:#047857; font-weight:600; margin-bottom:4px;">📋 Aturan: ${item.rule}</div>
+          <div style="font-size:0.8rem; color:#64748b;">🔬 <em>Alasan Sains: ${item.scientific_reason}</em></div>
+        `;
+        mixContainer.appendChild(card);
+      });
+    }
+
+  } catch (err) {
+    console.error('Failed to load troubleshooting data:', err);
+  }
+}
+
+function displayTroubleshootDetail(id) {
+  const item = troubleshootData.find(t => t.id === id);
+  if (!item) return;
+
+  document.getElementById('trouble-title').textContent = item.symptom;
+  const badge = document.getElementById('trouble-risk-badge');
+  if (badge) {
+    badge.textContent = `Tingkat Bahaya: ${item.risk_level}`;
+    badge.className = 'risk-badge ' + (item.risk_level.includes('Aman') ? 'risk-safe' : (item.risk_level.includes('Waspada') ? 'risk-warning' : 'risk-danger'));
+  }
+
+  document.getElementById('trouble-cause-text').textContent = item.cause;
+
+  const solList = document.getElementById('trouble-solutions-list');
+  if (solList) {
+    solList.innerHTML = '';
+    item.solution.forEach(s => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '4px';
+      li.textContent = s;
+      solList.appendChild(li);
+    });
+  }
+
+  document.getElementById('trouble-prevention-text').textContent = item.prevention;
+}
+
+// 3.6 Quick Tank Dosing & SNI Check
 async function calculateLiquidDose() {
- const pocType = document.getElementById('dose-poc-type')?.value || 'POC ROTAN Premium';
- const crop = document.getElementById('dose-crop')?.value || 'Sayuran Daun';
- const method = document.getElementById('dose-method')?.value || 'Semprot Daun (Spraying)';
- const vol = parseFloat(document.getElementById('dose-vol')?.value || '14');
+  const pocType = document.getElementById('dose-poc-type')?.value || 'POC ROTAN Premium';
+  const crop = document.getElementById('dose-crop')?.value || 'Sayuran Daun';
+  const method = document.getElementById('dose-method')?.value || 'Semprot Daun (Spraying)';
+  const vol = parseFloat(document.getElementById('dose-vol')?.value || '16');
 
- try {
- const res = await fetch('/api/liquid/calculate-dose', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
- poc_type: pocType,
- crop_category: crop,
- application_method: method,
- volume_liters: vol
- })
- });
+  try {
+    const res = await fetch('/api/liquid/calculate-dose', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        poc_type: pocType,
+        crop_category: crop,
+        application_method: method,
+        volume_liters: vol
+      })
+    });
 
- const data = await res.json();
- renderDoseResult(data);
-
- } catch (err) {
- console.error('Dose calc error:', err);
- }
+    const data = await res.json();
+    renderDoseResult(data);
+  } catch (err) {
+    console.error('Dose calc error:', err);
+  }
 }
 
 function renderDoseResult(data) {
- const resBox = document.getElementById('dose-result-box');
- if (!resBox) return;
+  const resBox = document.getElementById('dose-result-box');
+  const placeholder = document.getElementById('schedule-placeholder');
+  if (!resBox) return;
 
- resBox.style.display = 'block';
- resBox.innerHTML = `
- <div class="grid-3" style="margin-bottom:14px;">
- <div class="metric-box">
- <div class="metric-label">Kebutuhan POC</div>
- <div class="metric-value" style="color:#34d399;">${data.recommended_poc_cc} cc/ml</div>
- <div class="metric-sub info">Untuk ${data.water_volume_liters} Liter Air</div>
- </div>
- <div class="metric-box">
- <div class="metric-label">Rasio Pengenceran</div>
- <div class="metric-value" style="color:#38bdf8;">${data.dilution_ratio}</div>
- <div class="metric-sub">Standar Aman Daun</div>
- </div>
- <div class="metric-box">
- <div class="metric-label">Waktu Optimal</div>
- <div class="metric-value" style="font-size:1.1rem; color:#facc15;">Pagi / Sore</div>
- <div class="metric-sub success">Stomata Terbuka</div>
- </div>
- </div>
- <div style="background:rgba(15,23,42,0.6); padding:14px; border-radius:var(--radius-sm); border:1px solid var(--border-subtle);">
- <p style="margin-bottom:6px;"><strong>️ Frekuensi Aplikasi:</strong> ${data.application_frequency}</p>
- <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><strong> Petunjuk Teknis:</strong></p>
- <ul style="padding-left:18px; font-size:0.85rem; color:#cbd5e1;">
- ${data.special_tips.map(t => `<li style="margin-bottom:4px;">${t}</li>`).join('')}
- </ul>
- </div>
- `;
+  if (placeholder) placeholder.style.display = 'none';
+  resBox.style.display = 'block';
+  resBox.innerHTML = `
+    <div class="grid-3" style="margin-bottom:14px;">
+      <div class="metric-box">
+        <div class="metric-label">Kebutuhan POC</div>
+        <div class="metric-value" style="color:#059669;">${data.recommended_poc_cc} cc/ml</div>
+        <div class="metric-sub info">Untuk ${data.water_volume_liters} Liter Air</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Rasio Pengenceran</div>
+        <div class="metric-value" style="color:#2563eb;">${data.dilution_ratio}</div>
+        <div class="metric-sub">Standar Aman Daun</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-label">Waktu Optimal</div>
+        <div class="metric-value" style="font-size:1.0rem; color:#d97706;">Pagi / Sore</div>
+        <div class="metric-sub">Stomata Terbuka</div>
+      </div>
+    </div>
+    <div style="background:#f8fafc; padding:14px; border-radius:var(--radius-sm); border:1px solid #e2e8f0;">
+      <p style="margin-bottom:6px;"><strong>⏱️ Frekuensi Aplikasi:</strong> ${data.application_frequency}</p>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:8px;"><strong>💡 Petunjuk Teknis:</strong></p>
+      <ul style="padding-left:18px; font-size:0.85rem; color:#334155;">
+        ${data.special_tips.map(t => `<li style="margin-bottom:4px;">${t}</li>`).join('')}
+      </ul>
+    </div>
+  `;
 }
 
 async function checkLiquidSNI() {
- const cOrg = parseFloat(document.getElementById('sni-c-organic')?.value || '12.5');
- const npk = parseFloat(document.getElementById('sni-npk')?.value || '3.5');
- const ph = parseFloat(document.getElementById('sni-ph')?.value || '6.8');
- const salm = document.getElementById('sni-salmonella')?.value || 'Negatif';
+  const cOrg = parseFloat(document.getElementById('sni-c-organic')?.value || '12.5');
+  const npk = parseFloat(document.getElementById('sni-npk')?.value || '3.5');
+  const ph = parseFloat(document.getElementById('sni-ph')?.value || '6.8');
+  const salm = document.getElementById('sni-salmonella')?.value || 'Negatif';
+  const ecoli = parseFloat(document.getElementById('sni-ecoli')?.value || '10');
 
- try {
- const res = await fetch('/api/liquid/sni-check', {
- method: 'POST',
- headers: { 'Content-Type': 'application/json' },
- body: JSON.stringify({
- c_organic_pct: cOrg,
- total_npk_pct: npk,
- ph: ph,
- pathogen_salmonella: salm
- })
- });
+  try {
+    const res = await fetch('/api/liquid/sni-check', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        c_organic_pct: cOrg,
+        total_npk_pct: npk,
+        ph: ph,
+        pathogen_salmonella: salm,
+        pathogen_ecoli_cfu: ecoli
+      })
+    });
 
- const data = await res.json();
- renderLiquidSNIResult(data);
-
- } catch (err) {
- console.error('SNI Check error:', err);
- }
+    const data = await res.json();
+    renderLiquidSNIResult(data);
+  } catch (err) {
+    console.error('SNI Check error:', err);
+  }
 }
 
 function renderLiquidSNIResult(data) {
- const resBox = document.getElementById('liquid-sni-result-box');
- if (!resBox) return;
+  const resBox = document.getElementById('liquid-sni-result-box');
+  const placeholder = document.getElementById('liquid-sni-placeholder');
+  if (!resBox) return;
 
- resBox.style.display = 'block';
- const isPass = data.overall_status.includes('Memenuhi');
+  if (placeholder) placeholder.style.display = 'none';
+  resBox.style.display = 'block';
+  const isPass = data.overall_status.includes('Memenuhi');
 
- resBox.innerHTML = `
- <div style="padding:14px; border-radius:var(--radius-md); background:${isPass ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.1)'}; border:1px solid ${isPass ? 'var(--primary)' : 'var(--danger)'}; margin-bottom:14px;">
- <h4 style="color:${isPass ? '#34d399' : '#f87171'};">${isPass ? '' : '️'} ${data.overall_status}</h4>
- </div>
- <table class="sni-table" style="margin-bottom:14px;">
- <thead>
- <tr>
- <th>Parameter Mutu POC</th>
- <th>Hasil Uji</th>
- <th>Baku Mutu (Permentan 261/2019)</th>
- <th>Status</th>
- </tr>
- </thead>
- <tbody>
- ${data.details.map(d => `
- <tr>
- <td><strong>${d.parameter}</strong></td>
- <td>${d.measured_value} ${d.unit}</td>
- <td>${d.standard_range} ${d.unit}</td>
- <td><span class="status-badge ${d.status.includes('Lolos') ? 'pass' : 'fail'}">${d.status}</span></td>
- </tr>
- `).join('')}
- </tbody>
- </table>
- <div style="font-size:0.85rem; color:var(--text-muted); background:rgba(0,0,0,0.3); padding:10px; border-radius:6px;">
- <strong>Catatan & Saran Perbaikan:</strong><br>
- ${data.improvement_advice.map(a => `• ${a}`).join('<br>')}
- </div>
- `;
+  resBox.innerHTML = `
+    <div style="padding:14px; border-radius:var(--radius-md); background:${isPass ? 'rgba(5,150,105,0.08)' : 'rgba(220,38,38,0.08)'}; border:1px solid ${isPass ? '#059669' : '#dc2626'}; margin-bottom:14px;">
+      <h4 style="color:${isPass ? '#047857' : '#b91c1c'};">${isPass ? '✅' : '⚠️'} ${data.overall_status}</h4>
+    </div>
+    <table class="sni-table" style="margin-bottom:14px;">
+      <thead>
+        <tr>
+          <th>Parameter Mutu POC</th>
+          <th>Hasil Uji</th>
+          <th>Baku Mutu (Permentan 261/2019)</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${data.details.map(d => `
+          <tr>
+            <td><strong>${d.parameter}</strong></td>
+            <td>${d.measured_value} ${d.unit}</td>
+            <td>${d.standard_range} ${d.unit}</td>
+            <td><span class="status-badge ${d.status.includes('Lolos') ? 'pass' : 'fail'}">${d.status}</span></td>
+          </tr>
+        `).join('')}
+      </tbody>
+    </table>
+    <div style="font-size:0.85rem; color:#334155; background:#f8fafc; border:1px solid #e2e8f0; padding:12px; border-radius:6px;">
+      <strong style="color:#064e3b;">📌 Catatan & Saran Perbaikan Formula:</strong><br>
+      ${data.improvement_advice.map(a => `• ${a}`).join('<br>')}
+    </div>
+  `;
 }
+
 
 // 4. Economics & HPP Module
 function initEconomicsModule() {

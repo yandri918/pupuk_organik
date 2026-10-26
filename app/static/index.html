@@ -216,17 +216,38 @@
 
  <div class="form-group">
  <label class="form-label">Pilih Bahan Baku yang Anda Miliki (Min. 2 Bahan):</label>
- <div class="grid-2" style="font-size:0.85rem; gap:8px;">
+ <div style="font-size:0.8rem; font-weight:700; color:#047857; margin-bottom:4px;">🐄 Kotoran Ternak:</div>
+ <div class="grid-2" style="font-size:0.82rem; gap:6px; margin-bottom:8px;">
  <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Sapi" checked> Kotoran Sapi</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Ayam (Broiler/Petelur)" checked> Kotoran Ayam</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Kambing/Domba"> Kotoran Kambing</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Guano (Kotoran Kelelawar)"> Guano Kelelawar</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Kelinci (Padat)"> Kohe Kelinci</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Kotoran Burung Puyuh"> Kohe Puyuh</label>
+ </div>
+
+ <div style="font-size:0.8rem; font-weight:700; color:#0284c7; margin-bottom:4px;">🍂 Karbon, Bulking & Mineral:</div>
+ <div class="grid-2" style="font-size:0.82rem; gap:6px; margin-bottom:8px;">
  <label><input type="checkbox" class="opt-mat-checkbox" value="Sekam Padi Mentah" checked> Sekam Mentah</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Arang Sekam Padi"> Arang Sekam</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Jerami Padi (Cacah)"> Jerami Padi</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Dedak Padi Halus (Katul)" checked> Dedak Padi</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Abu Kayu Dapur"> Abu Kayu</label>
  <label><input type="checkbox" class="opt-mat-checkbox" value="Dolomit (Kapur Pertanian)"> Dolomit</label>
+ </div>
+
+ <div style="font-size:0.8rem; font-weight:700; color:#d97706; margin-bottom:4px;">♻️ Limbah Organik Sampah Pasar, Dapur & Agro-Industri:</div>
+ <div class="grid-2" style="font-size:0.82rem; gap:6px; max-height:140px; overflow-y:auto; padding-right:4px;">
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Sampah Sayuran Hijau (Limbah Pasar & Dapur)"> Sampah Sayuran Hijau</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Sampah Kulit Buah-Buahan (Sisa Pasar/Jus)"> Sampah Kulit Buah</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Sampah Sisa Makanan Dapur (Food Waste)"> Sisa Makanan Dapur</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Ampas Kopi (Spent Coffee Grounds)"> Ampas Kopi</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Ampas Tahu Basah (Limbah Industri Tahu)"> Ampas Tahu</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Limbah Baglog Jamur Tiram (Bekas Media)"> Baglog Jamur Bekas</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Sampah Daun Kering / Serasah Kebun"> Daun Kering / Serasah</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Eceng Gondok (Cacahan Gulma Rawa)"> Eceng Gondok</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Tandan Kosong Kelapa Sawit (TKKS Cacah)"> TKKS Sawit</label>
+ <label><input type="checkbox" class="opt-mat-checkbox" value="Limbah Kulit Bawang Merah & Putih"> Kulit Bawang</label>
  </div>
  </div>
 
@@ -261,160 +282,515 @@
  </div>
  </section>
 
- <!-- ========================================== -->
- <!-- TAB 2: PUPUK ORGANIK CAIR (POC & BIOAKTIVATOR) -->
- <!-- ========================================== -->
- <section id="tab-liquid" class="tab-panel">
- <div class="glass-card" style="margin-bottom: 24px;">
- <div class="sub-tabs liquid-sub-tabs">
- <button class="sub-tab-btn active" data-subtarget="liquid-sub-recipes"> Panduan Resep POC Super</button>
- <button class="sub-tab-btn" data-subtarget="liquid-sub-dose"> Kalkulator Dosis Tangki & Kocor</button>
- <button class="sub-tab-btn" data-subtarget="liquid-sub-mol"> Bank MOL & Hormon ZPT</button>
- <button class="sub-tab-btn" data-subtarget="liquid-sub-sni"> Cek Baku Mutu SNI POC</button>
- </div>
+   <!-- ========================================== -->
+  <!-- TAB 2: PUPUK ORGANIK CAIR (POC & BIOAKTIVATOR) -->
+  <!-- ========================================== -->
+  <section id="tab-liquid" class="tab-panel">
+    <div class="glass-card" style="margin-bottom: 24px;">
+      <div class="sub-tabs liquid-sub-tabs" style="overflow-x: auto; white-space: nowrap;">
+        <button class="sub-tab-btn active" data-subtarget="liquid-sub-brew">🧪 Smart Formulator Batch POC</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-schedule">📅 Dosis & Kalender Lapangan (HST)</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-recipes">📖 Resep POC Spesialis</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-mol">🦠 Bank MOL & Hormon ZPT</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-troubleshoot">🩺 Dokter POC & Campuran Tangki</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-sni">⚖️ Cek Mutu Lab (Permentan 261)</button>
+      </div>
 
- <!-- Sub-tab 1: POC Recipes -->
- <div id="liquid-sub-recipes" class="liquid-sub-panel">
- <div class="card-header">
- <h3 class="card-title"> Koleksi Resep Pupuk Organik Cair (POC) Premium</h3>
- <span class="card-badge">Kaya Probiotik & Enzim</span>
- </div>
- <div id="liquid-recipes-container">
- <p style="color:var(--text-muted);">Memuat resep POC...</p>
- </div>
- </div>
+      <!-- ===================================== -->
+      <!-- Sub-tab 1: Smart POC Batch Formulator -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-brew" class="liquid-sub-panel">
+        <div class="grid-2">
+          <!-- Left: Batch Brewing Inputs -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">🧪 Racik Formulasi Batch Tong / Drum</h3>
+              <span class="card-badge">Skala 10L - 1000L</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+              Pilih volume wadah fermentasi dan fokus target nutrisi. Sistem otomatis mengalokasikan ruang udara (headspace 15%), rasio cairan dasar, biomassa hara, dan pakan mikroba.
+            </p>
 
- <!-- Sub-tab 2: Dose Calculator -->
- <div id="liquid-sub-dose" class="liquid-sub-panel" style="display:none;">
- <div class="grid-2">
- <div>
- <div class="card-header">
- <h3 class="card-title"> Hitung Kebutuhan POC per Tangki</h3>
- </div>
- <div class="form-group">
- <label class="form-label">Jenis Pupuk Cair</label>
- <select id="dose-poc-type" class="form-select">
- <option value="POC ROTAN Premium">POC ROTAN Premium (Nutrisi Lengkap)</option>
- <option value="POC Urine Kelinci (Liquid Gold)">POC Urine Kelinci (Tinggi Nitrogen)</option>
- <option value="POC Empon-Empon Plus">POC Empon-Empon (Bio-Fungisida & Imun)</option>
- <option value="POC Spesial Sawit">POC Spesial Sawit (Sex Ratio & BJR)</option>
- <option value="MOL Hormon Alami">MOL Alami (Auksin/Sitokinin/Giberelin)</option>
- </select>
- </div>
+            <div class="form-group">
+              <label class="form-label">Kapasitas Drum / Wadah Fermentasi (Liter)</label>
+              <div class="chip-group" id="brew-vol-chips">
+                <button type="button" class="chip-btn" data-vol="20">Galon 20L</button>
+                <button type="button" class="chip-btn" data-vol="50">Jerigen 50L</button>
+                <button type="button" class="chip-btn active" data-vol="100">Drum Biru 100L</button>
+                <button type="button" class="chip-btn" data-vol="200">Drum Standar 200L</button>
+                <button type="button" class="chip-btn" data-vol="1000">Toren IBC 1000L</button>
+              </div>
+              <input type="number" id="brew-vol-input" class="form-input" value="100" min="5" max="5000" step="5">
+              <span style="font-size:0.75rem; color:var(--text-muted);">Masukkan volume kapasitas total wadah yang Anda miliki.</span>
+            </div>
 
- <div class="form-group">
- <label class="form-label">Komoditas Tanaman</label>
- <select id="dose-crop" class="form-select">
- <option value="Sayuran Daun">Sayuran Daun (Bayam, Kangkung, Pakcoy, Selada)</option>
- <option value="Padi">Tanaman Padi (Fase Vegetatif / Pembentukan Anakan)</option>
- <option value="Buah & Hortikultura">Hortikultura Buah (Cabai, Tomat, Melon, Semangka)</option>
- <option value="Tanaman Keras & Sawit">Tanaman Keras / Perkebunan Kelapa Sawit</option>
- </select>
- </div>
+            <div class="form-group">
+              <label class="form-label">Fokus Target Nutrisi & Fungsi Agroteknis</label>
+              <select id="brew-purpose-select" class="form-select">
+                <option value="all_purpose">POC All-Purpose Komplit (Nutrisi Seimbang & Probiotik Tanah)</option>
+                <option value="vegetatif_n">POC Booster Vegetatif (Tinggi Nitrogen, Daun Lebar & Sitokinin)</option>
+                <option value="generatif_pk">POC Booster Generatif (Tinggi Kalium, Fosfor & Kalsium Buah)</option>
+                <option value="fish_amino">POC Asam Amino Ikan Laut / FAA (Regenerasi Sel & Anti-Stres)</option>
+                <option value="psb">POC Bakteri Fotosintesis / PSB (Rhodopseudomonas - Tenaga Surya)</option>
+              </select>
+            </div>
 
- <div class="form-group">
- <label class="form-label">Metode Aplikasi</label>
- <select id="dose-method" class="form-select">
- <option value="Semprot Daun (Spraying)">Semprot Daun (Spraying Kabut Halus)</option>
- <option value="Kocor Akar (Drenching)">Kocor Lubang Tanam / Piringan Akar (Drenching)</option>
- </select>
- </div>
+            <div class="form-group">
+              <label class="form-label">Metode Fermentasi</label>
+              <select id="brew-ftype-select" class="form-select">
+                <option value="anaerob">Fermentasi Anaerobik Kedap Udara (Drum Tertutup / Sistem Airlock)</option>
+                <option value="aerob">Fermentasi Aerobik / Paparan Terang (Botol Transparan / Aerator)</option>
+              </select>
+            </div>
 
- <div class="form-group">
- <label class="form-label">Kapasitas Tangki / Wadah Air (Liter)</label>
- <input type="number" id="dose-vol" class="form-input" value="14" min="1" max="1000" step="1">
- <span style="font-size:0.75rem; color:var(--text-muted);">Standar tangki semprot solo: 14 - 16 Liter</span>
- </div>
+            <button class="btn btn-primary" id="btn-calc-batch-brew" style="width:100%; margin-top:8px;">
+              Hitung Takaran Batch & Panduan Fermentasi
+            </button>
+          </div>
 
- <button class="btn btn-primary" id="btn-calc-dose" style="width:100%;">
- Hitung Takaran & Panduan Aplikasi
- </button>
- </div>
+          <!-- Right: Batch Results -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">📊 Rincian Komposisi & Standar Batch</h3>
+              <span class="card-badge" id="brew-badge-purpose">Formula Siap Seduh</span>
+            </div>
 
- <div>
- <div class="card-header">
- <h3 class="card-title"> Rekomendasi Aplikasi & Dosis Presisi</h3>
- </div>
- <div id="dose-result-box" style="display:none;"></div>
- <div id="dose-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
- <div style="font-size:3rem; margin-bottom:10px;"></div>
- <p>Tentukan jenis pupuk cair dan komoditas, lalu klik <strong>"Hitung Takaran"</strong> untuk melihat dosis per tangki.</p>
- </div>
- </div>
- </div>
- </div>
+            <div id="brew-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+              <div style="font-size:3rem; margin-bottom:10px;">🧪</div>
+              <p>Pilih kapasitas wadah drum Anda dan klik <strong>"Hitung Takaran Batch"</strong> untuk memformulasikan resep presisi.</p>
+            </div>
 
- <!-- Sub-tab 3: MOL Collection -->
- <div id="liquid-sub-mol" class="liquid-sub-panel" style="display:none;">
- <div class="card-header">
- <h3 class="card-title"> Bank Mikro Organisme Lokal (MOL) & Hormon ZPT Nabati</h3>
- <span class="card-badge">Pemanfaatan Bahan Sekitar</span>
- </div>
- <div class="grid-2" id="mol-collection-container">
- <p style="color:var(--text-muted);">Memuat data MOL...</p>
- </div>
- </div>
+            <div id="brew-results-box" style="display:none;">
+              <!-- 4 Metrics -->
+              <div class="grid-4" style="margin-bottom: 16px;">
+                <div class="metric-box">
+                  <div class="metric-label">Volume Efektif</div>
+                  <div class="metric-value" id="brew-metric-eff" style="color:#059669;">85 L</div>
+                  <div class="metric-sub info">Hasil Panen Bersih</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-label">Headspace Gas</div>
+                  <div class="metric-value" id="brew-metric-headspace" style="color:#f59e0b;">15 L</div>
+                  <div class="metric-sub">Penyangga Gas Aman</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-label">Estimasi N-P-K</div>
+                  <div class="metric-value" id="brew-metric-npk" style="font-size:0.95rem; color:#2563eb;">2.5 - 1.8 - 2.2</div>
+                  <div class="metric-sub">Bahan Siap Serap</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-label">HPP / Liter</div>
+                  <div class="metric-value" id="brew-metric-cost" style="font-size:1.05rem; color:#7c3aed;">Rp 2.400</div>
+                  <div class="metric-sub">Biaya Bahan Baku</div>
+                </div>
+              </div>
 
- <!-- Sub-tab 4: Liquid SNI Check -->
- <div id="liquid-sub-sni" class="liquid-sub-panel" style="display:none;">
- <div class="grid-2">
- <div>
- <div class="card-header">
- <h3 class="card-title"> Uji Mutu Laboratorium POC (Permentan 261/2019)</h3>
- </div>
- <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
- Masukkan hasil uji lab sampel POC Anda untuk mengonfirmasi kelayakan komersial dan keamanan biologis sesuai regulasi nasional.
- </p>
- <div class="grid-2">
- <div class="form-group">
- <label class="form-label">C-Organik Cair (%)</label>
- <input type="number" id="sni-c-organic" class="form-input" value="12.5" step="0.1">
- </div>
- <div class="form-group">
- <label class="form-label">Total N + P₂O₅ + K₂O (%)</label>
- <input type="number" id="sni-npk" class="form-input" value="3.5" step="0.1">
- </div>
- </div>
- <div class="grid-2">
- <div class="form-group">
- <label class="form-label">Derajat Keasaman (pH)</label>
- <input type="number" id="sni-ph" class="form-input" value="6.8" step="0.1" min="0" max="14">
- </div>
- <div class="form-group">
- <label class="form-label">Cemaran Salmonella</label>
- <select id="sni-salmonella" class="form-select">
- <option value="Negatif">Negatif (Bersih)</option>
- <option value="Positif">Positif (Tercemar)</option>
- </select>
- </div>
- </div>
-                    <div class="form-group">
-                        <label class="form-label">Cemaran Escherichia coli (CFU/ml)</label>
-                        <input type="number" id="sni-ecoli" class="form-input" value="10" step="5" min="0">
-                        <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu Permentan 261/2019: Maksimum &lt; 100 CFU/ml</span>
-                    </div>
- <button class="btn btn-primary" id="btn-check-liquid-sni" style="width:100%;">
- Validasi Standar Baku Mutu POC
- </button>
- </div>
+              <!-- Ingredients Table -->
+              <div style="margin-bottom:16px;">
+                <h4 style="font-size:0.92rem; color:#334155; margin-bottom:8px;">📋 Takaran Bahan Baku Presisi:</h4>
+                <table class="sni-table">
+                  <thead>
+                    <tr>
+                      <th>Bahan Baku</th>
+                      <th>Takaran</th>
+                      <th>Kategori</th>
+                      <th>Fungsi Biologis</th>
+                      <th>Est. Biaya</th>
+                    </tr>
+                  </thead>
+                  <tbody id="brew-ingredients-tbody"></tbody>
+                </table>
+              </div>
 
- <div>
- <div class="card-header">
- <h3 class="card-title"> Status Sertifikasi Mutu POC</h3>
- </div>
- <div id="liquid-sni-result-box" style="display:none;"></div>
- <div id="liquid-sni-placeholder" style="text-align:center; padding:40px 20px; color:var(--text-muted);">
- <div style="font-size:3rem; margin-bottom:10px;">️</div>
- <p>Klik tombol validasi untuk mengecek kesesuaian formula POC terhadap Permentan No. 261/KPTS/SR.310/M/4/2019.</p>
- </div>
- </div>
- </div>
- </div>
- </div>
- </section>
+              <!-- Degassing Alert -->
+              <div id="brew-degas-box" class="info-callout" style="margin-bottom:14px;">
+                <strong>⚠️ Protokol Pelepasan Gas (Degassing):</strong>
+                <p id="brew-degas-text" style="font-size:0.85rem; margin-top:4px;"></p>
+              </div>
 
- <!-- ========================================== -->
- <!-- TAB 3: KALKULATOR BISNIS & HPP -->
+              <!-- Preparation Steps -->
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:14px; margin-bottom:14px;">
+                <strong style="color:#065f46; font-size:0.9rem;">🛠️ Prosedur Pembuatan & Fermentasi:</strong>
+                <ol id="brew-steps-list" class="step-list" style="margin-top:8px; font-size:0.85rem;"></ol>
+              </div>
+
+              <!-- Maturation Indicators -->
+              <div style="background:#ffffff; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:14px;">
+                <strong style="color:#1e293b; font-size:0.9rem;">✅ Tanda-Tanda POC Matang Sempurna (Siap Panen):</strong>
+                <ul id="brew-indicators-list" style="margin-top:8px; padding-left:18px; font-size:0.85rem; color:var(--text-muted);"></ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 2: Field Schedule & Dosing -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-schedule" class="liquid-sub-panel" style="display:none;">
+        <div class="grid-2">
+          <!-- Left: Input Mode -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">📅 Perencana Dosis & Jadwal Musim Tanam</h3>
+              <span class="card-badge">Fase Tumbuh HST</span>
+            </div>
+
+            <!-- Mode Switcher -->
+            <div style="display:flex; gap:8px; margin-bottom:16px;">
+              <button type="button" class="btn btn-sm btn-primary" id="mode-btn-field" style="flex:1;">Skala Lahan (m² / Ha) & Kalender HST</button>
+              <button type="button" class="btn btn-sm btn-secondary" id="mode-btn-tank" style="flex:1;">Kalkulator Tangki Solo (14-16L)</button>
+            </div>
+
+            <!-- Section 1: Field Scale Inputs -->
+            <div id="schedule-field-inputs">
+              <div class="form-group">
+                <label class="form-label">Pilih Komoditas Tanaman</label>
+                <select id="field-crop-select" class="form-select">
+                  <option value="Padi Sawah">Padi Sawah (Fase Anakan, Bunting & Pengisian Bulir)</option>
+                  <option value="Cabai & Tomat">Cabai & Hortikultura Buah (Vegetatif, Bunga & Buah Lebat)</option>
+                  <option value="Bawang Merah">Bawang Merah (Anakan Rumpun & Pembesaran Umbi)</option>
+                  <option value="Sayuran Daun">Sayuran Daun (Bayam, Kangkung, Pakcoy, Selada)</option>
+                  <option value="Melon & Semangka">Melon & Semangka (Pembungaan & Pemanisan Netting)</option>
+                  <option value="Jagung">Jagung Hibrida / Jagung Manis</option>
+                  <option value="Tanaman Keras / Sawit">Tanaman Keras / Perkebunan Kelapa Sawit</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Luas Lahan Budidaya (m²)</label>
+                <div class="chip-group" id="field-area-chips">
+                  <button type="button" class="chip-btn" data-area="500">500 m²</button>
+                  <button type="button" class="chip-btn active" data-area="1000">1.000 m² (10 Ru)</button>
+                  <button type="button" class="chip-btn" data-area="2500">2.500 m²</button>
+                  <button type="button" class="chip-btn" data-area="5000">5.000 m² (0.5 Ha)</button>
+                  <button type="button" class="chip-btn" data-area="10000">10.000 m² (1 Hektar)</button>
+                </div>
+                <input type="number" id="field-area-input" class="form-input" value="1000" min="10" max="500000" step="50">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Kapasitas Tangki Semprot Anda (Liter)</label>
+                <select id="field-tank-cap-select" class="form-select">
+                  <option value="14">14 Liter (Tangki Solo Klasik)</option>
+                  <option value="16" selected>16 Liter (Tangki Elektrik Standar)</option>
+                  <option value="20">20 Liter (Tangki Knapsack Besar)</option>
+                </select>
+              </div>
+
+              <button class="btn btn-primary" id="btn-calc-field-schedule" style="width:100%; margin-top:8px;">
+                Susun Kalender Aplikasi & Kebutuhan Musim
+              </button>
+            </div>
+
+            <!-- Section 2: Quick Tank Calculator Inputs (Hidden by default) -->
+            <div id="schedule-tank-inputs" style="display:none;">
+              <div class="form-group">
+                <label class="form-label">Jenis Pupuk Cair</label>
+                <select id="dose-poc-type" class="form-select">
+                  <option value="POC ROTAN Premium">POC ROTAN Premium (Nutrisi Lengkap)</option>
+                  <option value="POC Urine Kelinci (Liquid Gold)">POC Urine Kelinci (Tinggi Nitrogen)</option>
+                  <option value="POC Empon-Empon Plus">POC Empon-Empon (Bio-Fungisida & Imun)</option>
+                  <option value="POC Kalium Kalsium Buah">POC Kalium & Kalsium (Bunga & Buah)</option>
+                  <option value="POC Asam Amino Ikan">POC Asam Amino Ikan Laut (FAA)</option>
+                  <option value="POC Bakteri Fotosintesis PSB">POC PSB (Rhodopseudomonas)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Komoditas Tanaman</label>
+                <select id="dose-crop" class="form-select">
+                  <option value="Sayuran Daun">Sayuran Daun (Bayam, Kangkung, Pakcoy, Selada)</option>
+                  <option value="Padi">Tanaman Padi (Fase Vegetatif / Pembentukan Anakan)</option>
+                  <option value="Buah & Hortikultura">Hortikultura Buah (Cabai, Tomat, Melon, Semangka)</option>
+                  <option value="Tanaman Keras & Sawit">Tanaman Keras / Perkebunan Kelapa Sawit</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Metode Aplikasi</label>
+                <select id="dose-method" class="form-select">
+                  <option value="Semprot Daun (Spraying)">Semprot Daun (Spraying Kabut Halus)</option>
+                  <option value="Kocor Akar (Drenching)">Kocor Lubang Tanam / Piringan Akar (Drenching)</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label">Kapasitas Tangki / Ember Air (Liter)</label>
+                <input type="number" id="dose-vol" class="form-input" value="16" min="1" max="1000" step="1">
+              </div>
+
+              <button class="btn btn-primary" id="btn-calc-dose" style="width:100%;">
+                Hitung Takaran Tangki & Konsentrasi
+              </button>
+            </div>
+          </div>
+
+          <!-- Right: Schedule Output -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">📋 Rekomendasi Jadwal & Dosis</h3>
+              <span class="card-badge" id="schedule-output-badge">Hasil Analisis</span>
+            </div>
+
+            <!-- Field Schedule Display -->
+            <div id="field-schedule-results" style="display:none;">
+              <div class="grid-3" style="margin-bottom:14px;">
+                <div class="metric-box">
+                  <div class="metric-label">Total POC Semusim</div>
+                  <div class="metric-value" id="field-metric-poc" style="color:#059669;">0 L</div>
+                  <div class="metric-sub info" id="field-metric-poc-sub">Kebutuhan Lahan</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-label">Air Pelarut Total</div>
+                  <div class="metric-value" id="field-metric-water" style="color:#2563eb;">0 L</div>
+                  <div class="metric-sub" id="field-metric-water-sub">Semprot Kabut</div>
+                </div>
+                <div class="metric-box">
+                  <div class="metric-label">Putaran Semprot</div>
+                  <div class="metric-value" id="field-metric-rounds" style="color:#d97706;">5 Fase</div>
+                  <div class="metric-sub">Hingga Panen</div>
+                </div>
+              </div>
+
+              <!-- Savings Banner -->
+              <div id="field-savings-box" style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:var(--radius-sm); padding:10px 14px; font-size:0.85rem; color:#065f46; margin-bottom:14px;">
+                💰 <strong>Efisiensi Pupuk:</strong> <span id="field-savings-text"></span>
+              </div>
+
+              <!-- Timeline stages -->
+              <div style="font-size:0.9rem; font-weight:700; color:#1e293b; margin-bottom:8px;">🗓️ Tahapan Aplikasi Berbasis Umur Tanaman (HST):</div>
+              <div class="timeline-container" id="field-timeline-container"></div>
+
+              <!-- Rules -->
+              <div style="margin-top:14px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:12px;">
+                <strong style="color:#334155; font-size:0.85rem;">📌 5 Aturan Emas Aplikasi POC di Lapangan:</strong>
+                <ul id="field-rules-list" style="padding-left:18px; margin-top:6px; font-size:0.82rem; color:var(--text-muted);"></ul>
+              </div>
+            </div>
+
+            <!-- Tank Result Display (for mode 2) -->
+            <div id="dose-result-box" style="display:none;"></div>
+
+            <div id="schedule-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+              <div style="font-size:3rem; margin-bottom:10px;">📅</div>
+              <p>Tentukan komoditas dan luas lahan, lalu klik <strong>"Susun Kalender Aplikasi"</strong> untuk melihat rencana jadwal penyemprotan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 3: Enriched POC Recipes -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-recipes" class="liquid-sub-panel" style="display:none;">
+        <div class="card-header">
+          <h3 class="card-title">📖 Ensiklopedia Resep Pupuk Organik Cair (POC) Spesialis</h3>
+          <span class="card-badge">10 Formula Dinamis</span>
+        </div>
+
+        <!-- Dynamic Batch Scaling Control -->
+        <div style="background:#f0fdf4; border:1px solid #bbf7d0; border-radius:var(--radius-md); padding:14px 18px; margin-bottom:16px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+            <div>
+              <strong style="color:#065f46; font-size:0.92rem;">⚡ Skala Volume Resep Dinamis:</strong>
+              <p style="font-size:0.8rem; color:#15803d; margin-top:2px;">
+                Pilih atau ketik kapasitas wadah drum Anda. Seluruh takaran bahan di bawah otomatis dikalkulasikan ulang secara proporsional!
+              </p>
+            </div>
+            <div style="display:flex; align-items:center; flex-wrap:wrap; gap:8px;">
+              <span style="font-size:0.85rem; font-weight:600; color:#065f46;">Kapasitas Wadah:</span>
+              <div class="chip-group" id="recipe-global-scale-chips" style="margin:0;">
+                <button type="button" class="chip-btn" data-rvol="5">5 L</button>
+                <button type="button" class="chip-btn" data-rvol="10">10 L</button>
+                <button type="button" class="chip-btn active" data-rvol="20">20 L</button>
+                <button type="button" class="chip-btn" data-rvol="50">50 L</button>
+                <button type="button" class="chip-btn" data-rvol="100">100 L</button>
+                <button type="button" class="chip-btn" data-rvol="200">200 L</button>
+              </div>
+              <div style="display:inline-flex; align-items:center; gap:4px;">
+                <input type="number" id="recipe-global-scale-input" class="form-input" value="20" min="1" max="5000" style="width:75px; padding:4px 8px; text-align:center; font-weight:700; color:#047857;">
+                <span style="font-size:0.82rem; color:var(--text-muted); font-weight:600;">Liter</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recipe Filters & Search -->
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom:18px;">
+          <div class="chip-group" id="recipe-filter-chips" style="margin:0;">
+            <button type="button" class="chip-btn active" data-filter="all">Semua Resep</button>
+            <button type="button" class="chip-btn" data-filter="vegetatif">Vegetatif & Daun</button>
+            <button type="button" class="chip-btn" data-filter="generatif">Generatif & Buah</button>
+            <button type="button" class="chip-btn" data-filter="proteksi">Proteksi & Imun</button>
+            <button type="button" class="chip-btn" data-filter="spesialis">Spesialis & Enzim</button>
+          </div>
+          <div style="min-width:240px;">
+            <input type="text" id="recipe-search-input" class="form-input" placeholder="🔍 Cari bahan / formula..." style="padding:6px 12px; font-size:0.85rem;">
+          </div>
+        </div>
+
+        <div id="liquid-recipes-container">
+          <p style="color:var(--text-muted);">Memuat koleksi resep...</p>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 4: MOL & ZPT Collection -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-mol" class="liquid-sub-panel" style="display:none;">
+        <div class="card-header">
+          <h3 class="card-title">🦠 Bank Mikro Organisme Lokal (MOL) & Hormon ZPT Nabati</h3>
+          <span class="card-badge">8 Isolat Biologis Mandiri</span>
+        </div>
+
+        <!-- MOL Filters -->
+        <div class="chip-group" id="mol-filter-chips" style="margin-bottom:16px;">
+          <button type="button" class="chip-btn active" data-molfilter="all">Semua MOL</button>
+          <button type="button" class="chip-btn" data-molfilter="sitokinin">Sitokinin (Tunas)</button>
+          <button type="button" class="chip-btn" data-molfilter="giberelin">Giberelin (Batang)</button>
+          <button type="button" class="chip-btn" data-molfilter="kalium">Kalium (Buah)</button>
+          <button type="button" class="chip-btn" data-molfilter="nitrogen">Nitrogen & Protein</button>
+          <button type="button" class="chip-btn" data-molfilter="proteksi">Bio-Proteksi & Enzim</button>
+        </div>
+
+        <div class="grid-2" id="mol-collection-container">
+          <p style="color:var(--text-muted);">Memuat bank MOL...</p>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 5: Doctor POC & Tank-Mix -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-troubleshoot" class="liquid-sub-panel" style="display:none;">
+        <div class="grid-2">
+          <!-- Left: Troubleshooting Fermentation -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">🩺 Dokter Fermentasi POC (Diagnostik Masalah)</h3>
+              <span class="card-badge">Pertolongan Pertama</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+              Pernah gagal fermentasi? Pilih gejala kerusakan yang Anda temui untuk mengetahui penyebab mikrobiologis dan langkah penyelamatannya:
+            </p>
+
+            <div class="form-group">
+              <label class="form-label">Pilih Gejala / Masalah yang Terjadi:</label>
+              <select id="trouble-symptom-select" class="form-select">
+                <option value="bau_busuk_bangkai">1. Bau Busuk Menyengat, Bau Bangkai, atau Bau Selokan</option>
+                <option value="jamur_putih_khamir">2. Muncul Selaput / Lapisan Putih Halus di Permukaan Cairan</option>
+                <option value="jamur_hijau_hitam">3. Muncul Jamur Hijau Gelap, Biru, atau Hitam Berbulu</option>
+                <option value="tong_kembung_meledak">4. Drum Menggembung Keras, Mendesah Kuat, Tutup Terlempar</option>
+                <option value="ph_tinggi_tidak_turun">5. pH Tetap Tinggi (> 5.5) Setelah 14 Hari Fermentasi</option>
+                <option value="cairan_keruh_berlumpur">6. Cairan Sangat Keruh, Mengendap Lumpur, Sering Menyumbat Sprayer</option>
+              </select>
+            </div>
+
+            <!-- Dynamic Troubleshooting Detail Card -->
+            <div id="trouble-detail-card" style="background:#ffffff; border:1px solid #e2e8f0; border-radius:var(--radius-md); padding:18px; box-shadow:var(--shadow-card);">
+              <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                <h4 id="trouble-title" style="font-size:1.0rem; color:#0f172a; font-weight:700;">-</h4>
+                <span id="trouble-risk-badge" class="risk-badge risk-warning">-</span>
+              </div>
+              <div style="font-size:0.85rem; color:#64748b; margin-bottom:12px;">
+                <strong>🔬 Penyebab Biologis:</strong>
+                <p id="trouble-cause-text" style="color:var(--text-main); margin-top:4px;"></p>
+              </div>
+              <div style="background:#f8fafc; border-left:3px solid #059669; padding:10px 12px; border-radius:var(--radius-sm); margin-bottom:12px;">
+                <strong style="color:#065f46; font-size:0.85rem;">🛠️ Langkah Penanganan Segera:</strong>
+                <ul id="trouble-solutions-list" style="padding-left:18px; margin-top:6px; font-size:0.82rem; color:var(--text-main);"></ul>
+              </div>
+              <div style="font-size:0.8rem; color:var(--text-muted);">
+                <strong>🛡️ Tindakan Pencegahan Selanjutnya:</strong>
+                <p id="trouble-prevention-text" style="margin-top:2px;"></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Tank-Mix Compatibility -->
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">🧪 Panduan Kompatibilitas Campuran Tangki</h3>
+              <span class="card-badge">Do's & Don'ts</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+              Ketahui bahan apa saja yang <strong>boleh dicampur</strong> atau <strong>dilarang keras dicampur</strong> dengan POC di dalam satu tangki semprot:
+            </p>
+
+            <div id="tank-mix-container" style="display:flex; flex-direction:column; gap:10px;">
+              <p style="color:var(--text-muted);">Memuat panduan campuran tangki...</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 6: Lab SNI & Permentan Check -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-sni" class="liquid-sub-panel" style="display:none;">
+        <div class="grid-2">
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">⚖️ Uji Mutu Laboratorium POC (Permentan 261/2019)</h3>
+              <span class="card-badge">Legalitas & Kualitas</span>
+            </div>
+            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:14px;">
+              Masukkan hasil uji lab sampel POC Anda untuk mengonfirmasi kelayakan komersial dan keamanan biologis sesuai regulasi nasional.
+            </p>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">C-Organik Cair (%)</label>
+                <input type="number" id="sni-c-organic" class="form-input" value="12.5" step="0.1">
+                <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu: Minimal ≥ 10.0%</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Total N + P₂O₅ + K₂O (%)</label>
+                <input type="number" id="sni-npk" class="form-input" value="3.5" step="0.1">
+                <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu: Rentang 2.0% - 6.0%</span>
+              </div>
+            </div>
+            <div class="grid-2">
+              <div class="form-group">
+                <label class="form-label">Derajat Keasaman (pH)</label>
+                <input type="number" id="sni-ph" class="form-input" value="6.8" step="0.1" min="0" max="14">
+                <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu: Rentang 4.0 - 9.0</span>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Cemaran Salmonella sp.</label>
+                <select id="sni-salmonella" class="form-select">
+                  <option value="Negatif">Negatif (Bebas Salmonella)</option>
+                  <option value="Positif">Positif (Tercemar Patogen)</option>
+                </select>
+                <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu: Wajib Negatif</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Cemaran Escherichia coli (CFU/ml)</label>
+              <input type="number" id="sni-ecoli" class="form-input" value="10" step="5" min="0">
+              <span style="font-size:0.75rem; color:var(--text-muted);">Baku mutu Permentan 261/2019: Maksimum &lt; 100 CFU/ml</span>
+            </div>
+            <button class="btn btn-primary" id="btn-check-liquid-sni" style="width:100%;">
+              Validasi Standar Baku Mutu POC
+            </button>
+          </div>
+
+          <div>
+            <div class="card-header">
+              <h3 class="card-title">📋 Status Sertifikasi Mutu POC</h3>
+            </div>
+            <div id="liquid-sni-result-box" style="display:none;"></div>
+            <div id="liquid-sni-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+              <div style="font-size:3rem; margin-bottom:10px;">⚖️</div>
+              <p>Klik tombol validasi untuk mengecek kesesuaian formula POC terhadap Permentan No. 261/KPTS/SR.310/M/4/2019.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TAB 3: KALKULATOR BISNIS & HPP -->
  <!-- ========================================== -->
  <section id="tab-economics" class="tab-panel">
  <div class="glass-card">

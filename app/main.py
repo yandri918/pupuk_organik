@@ -11,13 +11,18 @@ from app.models.schemas import (
     SolidOptimizationRequest, SolidOptimizationResponse,
     LiquidDoseRequest, LiquidDoseResponse,
     LiquidSNIRequest, LiquidSNIResponse,
+    POCBatchBrewRequest, POCBatchBrewResponse,
+    POCFieldScheduleRequest, POCFieldScheduleResponse,
+    POCTroubleshootItem, POCTankMixItem,
     EconomicsRequest, EconomicsResponse
 )
 from app.services.solid_fertilizer import (
     ORGANIC_DATABASE, SOLID_PRESET_RECIPES, calculate_solid_fertilizer
 )
 from app.services.liquid_fertilizer import (
-    POC_RECIPES_DATABASE, MOL_COLLECTION, calculate_liquid_dosage, check_liquid_sni
+    POC_RECIPES_DATABASE, MOL_COLLECTION, calculate_liquid_dosage, check_liquid_sni,
+    calculate_poc_batch_brew, calculate_field_schedule,
+    get_troubleshoot_database, get_tank_mix_guide
 )
 from app.services.optimizer import optimize_solid_formulation
 from app.services.economics import calculate_economics
@@ -117,6 +122,28 @@ async def check_liquid_sni_endpoint(req: LiquidSNIRequest):
         return check_liquid_sni(req)
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/liquid/batch-brew", response_model=POCBatchBrewResponse)
+async def calculate_batch_brew_endpoint(req: POCBatchBrewRequest):
+    try:
+        return calculate_poc_batch_brew(req)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.post("/api/liquid/field-schedule", response_model=POCFieldScheduleResponse)
+async def calculate_field_schedule_endpoint(req: POCFieldScheduleRequest):
+    try:
+        return calculate_field_schedule(req)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+@app.get("/api/liquid/troubleshooting", response_model=List[POCTroubleshootItem])
+async def get_troubleshooting_endpoint():
+    return get_troubleshoot_database()
+
+@app.get("/api/liquid/tank-mix-guide", response_model=List[POCTankMixItem])
+async def get_tank_mix_endpoint():
+    return get_tank_mix_guide()
 
 # --- BUSINESS ECONOMICS ENDPOINTS ---
 

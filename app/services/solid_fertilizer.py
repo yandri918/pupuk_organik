@@ -152,6 +152,106 @@ ORGANIC_DATABASE: Dict[str, Dict[str, Any]] = {
         "moisture_typical": 5.0,
         "character": "Kaya Kalsium Karbonat (>90%), mencegah penyakit fisiologis pada tanaman.",
         "category": "Mineral Alami"
+    },
+    "Sampah Sayuran Hijau (Limbah Pasar & Dapur)": {
+        "carbon": 40.0,
+        "n": 2.80,
+        "p": 0.35,  # elemental P -> ~0.80% P2O5
+        "k": 1.80,  # elemental K -> ~2.17% K2O
+        "c_n": 14.3,
+        "moisture_typical": 82.0,
+        "character": "Limbah hijau segar (sawi, kubis, kangkung, bayam). Sumber nitrogen terlarut, air tinggi, pemicu awal aktivitas mikroba.",
+        "category": "Limbah Organik / Sampah Basah"
+    },
+    "Sampah Kulit Buah-Buahan (Sisa Pasar/Jus)": {
+        "carbon": 42.0,
+        "n": 1.40,
+        "p": 0.25,  # elemental P -> ~0.57% P2O5
+        "k": 2.60,  # elemental K -> ~3.13% K2O
+        "c_n": 30.0,
+        "moisture_typical": 78.0,
+        "character": "Kulit pisang, pepaya, nanas, semangka. Sangat kaya kalium alami & gula sederhana pemacu khamir.",
+        "category": "Limbah Organik / Sampah Basah"
+    },
+    "Sampah Sisa Makanan Dapur (Food Waste)": {
+        "carbon": 44.0,
+        "n": 2.60,
+        "p": 0.45,  # elemental P -> ~1.03% P2O5
+        "k": 1.10,  # elemental K -> ~1.32% K2O
+        "c_n": 16.9,
+        "moisture_typical": 72.0,
+        "character": "Sisa nasi, lauk nabati, remah makanan. Nutrisi NPK lengkap, memicu fase panas termofilik dengan cepat.",
+        "category": "Limbah Organik / Sampah Basah"
+    },
+    "Ampas Kopi (Spent Coffee Grounds)": {
+        "carbon": 45.0,
+        "n": 2.25,
+        "p": 0.15,  # elemental P -> ~0.34% P2O5
+        "k": 0.60,  # elemental K -> ~0.72% K2O
+        "c_n": 20.0,
+        "moisture_typical": 50.0,
+        "character": "Limbah kafe/dapur. C/N seimbang (20:1), kaya nitrogen & magnesium organik, memperbaiki retensi air tanah.",
+        "category": "Limbah Organik / Sampah Kering"
+    },
+    "Ampas Tahu Basah (Limbah Industri Tahu)": {
+        "carbon": 45.0,
+        "n": 3.50,
+        "p": 0.40,  # elemental P -> ~0.92% P2O5
+        "k": 0.70,  # elemental K -> ~0.84% K2O
+        "c_n": 12.9,
+        "moisture_typical": 76.0,
+        "character": "Limbah protein tinggi kedelai. Mempercepat lonjakan panas tumpukan (55-65°C) dan melepaskan nitrogen organik.",
+        "category": "Limbah Agro-Industri / Organik"
+    },
+    "Limbah Baglog Jamur Tiram (Bekas Media)": {
+        "carbon": 42.0,
+        "n": 1.20,
+        "p": 0.22,  # elemental P -> ~0.50% P2O5
+        "k": 0.85,  # elemental K -> ~1.02% K2O
+        "c_n": 35.0,
+        "moisture_typical": 45.0,
+        "character": "Serbuk kayu yang telah diurai sebagian miselium jamur. Kaya lignin lapuk, sangat gembur, mengandung inokulan Trichoderma.",
+        "category": "Limbah Agro-Industri / Organik"
+    },
+    "Sampah Daun Kering / Serasah Kebun": {
+        "carbon": 48.0,
+        "n": 0.80,
+        "p": 0.12,  # elemental P -> ~0.27% P2O5
+        "k": 0.65,  # elemental K -> ~0.78% K2O
+        "c_n": 60.0,
+        "moisture_typical": 15.0,
+        "character": "Limbah pembersihan halaman/taman (Brown Waste). Menyerap kelebihan air dari sampah basah dan mencegah bau busuk.",
+        "category": "Limbah Organik / Sampah Kering"
+    },
+    "Eceng Gondok (Cacahan Gulma Rawa)": {
+        "carbon": 38.0,
+        "n": 2.10,
+        "p": 0.30,  # elemental P -> ~0.69% P2O5
+        "k": 2.80,  # elemental K -> ~3.37% K2O
+        "c_n": 18.1,
+        "moisture_typical": 85.0,
+        "character": "Biomassa gulma air melimpah. Kaya Kalium, Auksin, dan Giberelin alami, berongga melancarkan sirkulasi udara.",
+        "category": "Limbah Organik / Sampah Basah"
+    },
+    "Tandan Kosong Kelapa Sawit (TKKS Cacah)": {
+        "carbon": 46.0,
+        "n": 1.10,
+        "p": 0.18,  # elemental P -> ~0.41% P2O5
+        "k": 2.50,  # elemental K -> ~3.01% K2O
+        "c_n": 41.8,
+        "moisture_typical": 55.0,
+        "character": "Limbah padat PKS. Sumber Kalium dan lignin organik tinggi untuk memperbaiki struktur tanah dan daya simpan air.",
+        "category": "Limbah Agro-Industri / Organik"
+    },
+    "Limbah Kulit Bawang Merah & Putih": {
+        "carbon": 40.0,
+        "n": 1.30,
+        "p": 0.20,  # elemental P -> ~0.46% P2O5
+        "k": 2.10,  # elemental K -> ~2.53% K2O
+        "c_n": 30.8,
+        "moisture_typical": 20.0,
+        "character": "Sisa kupasan bumbu dapur. Mengandung allisin, flavonoid, dan hormon tumbuh, berfungsi ganda sebagai bio-pestisida tanah.",
+        "category": "Limbah Organik / Sampah Kering"
     }
 }
 
@@ -239,6 +339,49 @@ SOLID_PRESET_RECIPES = [
             "Atur kadar air hingga 40-50%.",
             "Tutup terpal dan diamkan. Suhu tumpukan akan stabil di rentang hangat mesofilik-termofilik.",
             "Menghasilkan humus hitam gembur yang tahan lama di dalam tanah."
+        ]
+    },
+    {
+        "id": "kompos-sampah-pasar-urban",
+        "title": "Kompos Super Sampah Sayur & Buah Pasar (Metode Aerob Termofilik Cepat)",
+        "summary": "Formula pengolahan sampah basah pasar tradisional / TPS 3R menjadi kompos higienis bebas bau dalam 14-21 hari.",
+        "materials": [
+            {"name": "Sampah Sayuran Hijau (Limbah Pasar & Dapur)", "qty": "500 kg"},
+            {"name": "Sampah Kulit Buah-Buahan (Sisa Pasar/Jus)", "qty": "300 kg"},
+            {"name": "Sampah Daun Kering / Serasah Kebun", "qty": "300 kg (Penyeimbang Karbon)"},
+            {"name": "Arang Sekam Padi", "qty": "100 kg (Penyerap Bau Amonia)"},
+            {"name": "Dolomit (Kapur Pertanian)", "qty": "30 kg (Penetral Asam)"},
+            {"name": "Bioaktivator ROTAN / EM4", "qty": "2 Liter"}
+        ],
+        "fermentation_time": "14 - 21 Hari",
+        "steps": [
+            "Tiriskan kelebihan air lindi dari sampah sayuran dan buah pasar.",
+            "Lapiskan sampah basah secara berselingan (lasagna method) dengan daun kering dan arang sekam.",
+            "Taburkan dolomit tipis-tipis di setiap lapisan untuk menetralkan asam organik dari pembusukan buah.",
+            "Siramkan dekomposer aktif hingga merata.",
+            "Lakukan pembalikan tumpukan pada hari ke-3, ke-7, dan ke-12 untuk menyuplai oksigen dan meratakan suhu termofilik 60°C.",
+            "Kompos matang ditandai warna gelap, remah, suhu kembali ke suhu ruang (<30°C), dan aroma seperti humus tanah hutan."
+        ]
+    },
+    {
+        "id": "kompos-dapur-kopi-komunitas",
+        "title": "Kompos Dapur, Ampas Kopi & Baglog Jamur (Urban / Household Composting)",
+        "summary": "Formulasi ramah lingkungan untuk pekarangan rumah, kafe, dan bank sampah perkotaan tanpa bau menyengat.",
+        "materials": [
+            {"name": "Sampah Sisa Makanan Dapur (Food Waste)", "qty": "100 kg"},
+            {"name": "Ampas Kopi (Spent Coffee Grounds)", "qty": "50 kg"},
+            {"name": "Limbah Baglog Jamur Tiram (Bekas Media)", "qty": "100 kg"},
+            {"name": "Cangkang Telur (Tumbuk)", "qty": "10 kg"},
+            {"name": "Bioaktivator Kompos", "qty": "500 ml"}
+        ],
+        "fermentation_time": "10 - 14 Hari",
+        "steps": [
+            "Cacah sisa makanan dapur menjadi ukuran kecil (2-3 cm). Tumbuk halus cangkang telur.",
+            "Campurkan sisa makanan dengan ampas kopi dan remasan baglog jamur dalam komposter atau drum berpori.",
+            "Ampas kopi dan serbuk baglog jamur akan menyerap kelembaban dan menghilangkan aroma amis sisa dapur.",
+            "Siramkan larutan bioaktivator, aduk rata.",
+            "Tutup komposter dengan sirkulasi udara cukup. Aduk setiap 3 hari sekali.",
+            "Siap digunakan sebagai media tanam organik premium untuk sayuran polybag dan tanaman hias pekarangan."
         ]
     }
 ]

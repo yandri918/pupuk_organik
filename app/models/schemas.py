@@ -145,3 +145,76 @@ class EconomicsResponse(BaseModel):
     break_even_units: float
     feasibility_status: str
     insights: List[str]
+
+# --- EXTENDED POC SCHEMAS ---
+
+class POCBrewIngredient(BaseModel):
+    name: str
+    amount: float
+    unit: str
+    category: str
+    role: str
+    cost_est: float
+
+class POCBatchBrewRequest(BaseModel):
+    drum_volume_liters: float = Field(100.0, gt=0, description="Kapasitas wadah drum/tong fermentasi (Liter)")
+    purpose: str = Field("all_purpose", description="vegetatif_n, generatif_pk, all_purpose, bio_protect, fish_amino, psb")
+    fermentation_type: str = Field("anaerob", description="anaerob | aerob")
+
+class POCBatchBrewResponse(BaseModel):
+    drum_volume_liters: float
+    effective_liquid_liters: float
+    headspace_liters: float
+    purpose_title: str
+    fermentation_type: str
+    estimated_duration_days: str
+    target_ph: str
+    estimated_npk: str
+    estimated_total_cost: float
+    estimated_cost_per_liter: float
+    ingredients: List[POCBrewIngredient]
+    preparation_steps: List[str]
+    degassing_protocol: str
+    maturation_indicators: List[str]
+
+class POCFieldStage(BaseModel):
+    stage_name: str
+    timing: str
+    target_focus: str
+    dose_per_tank: str
+    method: str
+    water_volume_est: float
+    poc_volume_est: float
+    tank_count_est: int
+    notes: str
+
+class POCFieldScheduleRequest(BaseModel):
+    crop_name: str = Field("Padi Sawah")
+    land_area_sqm: float = Field(1000.0, gt=0)
+    tank_capacity_liters: float = Field(16.0, gt=0)
+
+class POCFieldScheduleResponse(BaseModel):
+    crop_name: str
+    land_area_sqm: float
+    land_area_desc: str
+    tank_capacity_liters: float
+    total_seasonal_poc_liters: float
+    total_seasonal_water_liters: float
+    total_spraying_rounds: int
+    stages: List[POCFieldStage]
+    economic_savings_est: str
+    application_rules: List[str]
+
+class POCTroubleshootItem(BaseModel):
+    id: str
+    symptom: str
+    cause: str
+    risk_level: str
+    solution: List[str]
+    prevention: str
+
+class POCTankMixItem(BaseModel):
+    partner_material: str
+    status: str
+    rule: str
+    scientific_reason: str

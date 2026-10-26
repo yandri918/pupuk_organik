@@ -14,22 +14,22 @@
 ## 2 Fitur Utama
 
 ### 1. Pupuk Organik Padat (Kompos & Bokashi)
-* **Smart Formulator & Analisis C/N**: Mengkalkulasi akumulasi massa karbon (C), nitrogen (N), fosfor (P), kalium (K), dan rasio C/N awal dari 14+ database bahan limbah (Kotoran Sapi, Kambing, Ayam, Puyuh, Guano, Jerami, Sekam, Arang Sekam, Dedak, Dolomit, Abu Kayu, dll).
+* **Smart Formulator & Analisis C/N**: Mengkalkulasi akumulasi massa karbon (C), nitrogen (N), fosfor (P), kalium (K), dan rasio C/N awal dari **24+ database bahan baku** lengkap:
+  * **Kotoran Ternak**: Sapi, Kambing/Domba, Ayam, Burung Puyuh, Kelinci, Guano Kelelawar.
+  * **Karbon & Bulking Agent**: Sekam Mentah, Arang Sekam, Jerami Cacah, Dedak Halus, Serbuk Gergaji, Abu Kayu, Dolomit, Cangkang Telur.
+  * **Limbah Organik Sampah Pasar & Dapur**: Sampah Sayuran Hijau Segar, Sampah Kulit Buah-Buahan, Sampah Sisa Makanan Dapur (*Food Waste*), Ampas Kopi (*Spent Coffee Grounds*), Ampas Tahu Basah, Limbah Baglog Jamur Tiram, Sampah Daun Kering / Serasah Taman, Eceng Gondok Rawa, Tandan Kosong Kelapa Sawit (TKKS), dan Limbah Kulit Bawang.
 * **Simulasi Fase Fermentasi Dinamis**: Memproyeksikan kurva degradasi C/N dari awal (~28:1) menuju kematangan stabil (12-15:1) serta tahapan suhu (Mesofilik 25-45°C → Termofilik 55-65°C → Pendinginan → Pematangan).
-* ** AI Recipe Optimizer**: Algoritma optimasi terikat (Constrained Optimization / SLSQP) yang membagi takaran proporsi bahan baku secara otomatis sesuai target bobot dan target C/N tanpa risiko kegagalan fermentasi.
-* ** Validasi SNI 19-7030-2004**: Audit otomatis parameter mutu kompos (C/N, C-Organik, N-total, P2O5, K2O).
-* ** Ensiklopedia Resep Bokashi Lapangan**: Panduan langkah demi langkah Bokashi ROTAN 1 Hektar, Bokashi Ayam Sayuran (N-Tinggi), Bokashi Guano Buah (P-Tinggi), dan Bokashi Sapi Pembenah Tanah.
+* ** AI Recipe Optimizer**: Algoritma optimasi terikat (*Constrained Optimization* / SLSQP) yang membagi takaran proporsi bahan baku secara otomatis sesuai target bobot dan target C/N tanpa risiko kegagalan fermentasi.
+* ** Validasi SNI 19-7030-2004**: Audit otomatis parameter mutu kompos (C/N, C-Organik, N-total, P2O5, K2O, dan kadar air).
+* ** Ensiklopedia Resep Bokashi Lapangan**: Panduan Bokashi ROTAN 1 Hektar, Bokashi Ayam Sayuran (N-Tinggi), Bokashi Guano Buah (P-Tinggi), Bokashi Sapi Pembenah Tanah, Kompos Sampah Pasar Aerob Cepat, dan Kompos Rumah Tangga Dapur & Ampas Kopi.
 
 ### 2. Pupuk Organik Cair (POC & Bioaktivator)
-* ** Koleksi Resep POC Premium**:
- * **POC ROTAN Super (Ramuan Organik Tanaman)**: Probiotik lengkap mikroba selulolitik & penambat N berbasis cairan rumen sapi, nanas, usus ikan, molase, dan dedak.
- * **Metode Perbanyakan Masal 1:100 Liter**: Trik efisiensi biaya memperbanyak 1 Liter biang POC menjadi 100 Liter POC berkualitas setara.
- * **POC Urine Kelinci (Liquid Gold)**: Formula Nitrogen tinggi untuk percepatan klorofil dan fase vegetatif.
- * **POC Empon-Empon Plus**: Formulasi 2-in-1 nutrisi dan bio-fungisida herbal (Jahe, Kunyit, Temulawak, Lengkuas) dengan teknik pasteurisasi media.
- * **Ramuan Spesial Kelapa Sawit**: Mengatasi dominasi bunga jantan (sex ratio balance) dan meningkatkan Berat Janjang Rata-rata (BJR) 30-50%.
-* ** Kalkulator Dosis Tangki & Kocor Presisi**: Menghitung kebutuhan cc/ml POC per tangki semprot (14-16 Liter) atau ember kocor sesuai fase komoditas (Padi, Sayuran Daun, Buah, Sawit) dan jam buka stomata optimal.
-* ** Bank MOL & Hormon ZPT Alami**: Panduan MOL Rebung (Giberelin), MOL Bonggol Pisang (Sitokinin), MOL Keong Mas (Asam Amino), dan MOL Sabut Kelapa (Kalium).
-* ** Evaluasi Standar Mutu POC (Permentan No. 261/KPTS/SR.310/M/4/2019)**: Verifikasi C-Organik (min 10%), total NPK (2-6%), pH (4-9), dan bebas cemaran patogen Salmonella.
+* ** Resep Dinamis & Smart Volume Scaler**: 10 Formula spesialis (ROTAN, Urine Kelinci, Asam Amino Ikan FAA, PSB Delima, Bio-Silika Bambu, Kalium-Kalsium Buah, Eco Enzyme, Jamur Jakaba, Empon-Empon Plus, dan Booster Sawit) dengan fitur pengali takaran otomatis proporsional (5L, 10L, 20L, 50L, 100L, 200L hingga kustom).
+* ** Formulator Batch Drum Cerdas**: Kalkulator peracikan batch drum besar dengan proteksi ruang ekspansi gas (*headspace safety margin 15%*), estimasi NPK, protokol *degassing*, dan HPP per liter.
+* ** Kalender Aplikasi & Jadwal Lapangan (HST)**: Manajemen penyemprotan presisi skala lahan (100 m² - 10 Hektar) atau tangki solo (16 L) terintegrasi fase vegetatif s/d panen untuk Padi, Cabai/Tomat, Bawang Merah, Sayuran Daun, Melon, Jagung, dan Kelapa Sawit.
+* ** Bank MOL & Hormon ZPT Nabati**: 8 isolat biakan mandiri (Auksin, Sitokinin, Giberelin, Kalium, Bio-Proteksi).
+* ** Dokter POC & Kompatibilitas Campuran Tangki**: Diagnostik kegagalan fermentasi (bau busuk, khamir putih, tong kembung, dll) beserta panduan ilmiah pencampuran tangki semprot (*tank-mix guide*).
+* ** Uji Mutu Lab (Permentan No. 261/KPTS/SR.310/M/4/2019)**: Verifikasi C-Organik (min 10%), total NPK (2-6%), pH (4-9), dan bebas cemaran patogen *E. coli* & *Salmonella*.
 
 ---
 
