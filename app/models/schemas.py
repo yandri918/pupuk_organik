@@ -218,3 +218,37 @@ class POCTankMixItem(BaseModel):
     status: str
     rule: str
     scientific_reason: str
+
+# --- FERMENTED CHEMICAL POC (ORGANO-KIMIA) SCHEMAS ---
+
+class ChemicalFertilizerInput(BaseModel):
+    name: str = Field(..., description="Nama pupuk kimia: NPK Mutiara 16-16-16, Urea, SP-36, KCl, ZA, MKP, KNO3 Putih, NPK Phonska")
+    weight_kg: float = Field(..., ge=0)
+
+class FermentedChemicalPOCRequest(BaseModel):
+    drum_volume_liters: float = Field(100.0, gt=0, description="Kapasitas wadah drum/tong (Liter)")
+    recipe_preset: str = Field("npk_mutiara_balanced", description="npk_mutiara_balanced | urea_vegetatif_booster | generatif_pk_booster | mkp_kno3_fruit_booster | custom")
+    chemical_fertilizers: Optional[List[ChemicalFertilizerInput]] = None
+    starter_bioactivator: str = Field("ROTAN Rumen Sapi / EM4", description="Inokulan pengurai")
+    fermentation_days: int = Field(10, ge=3, le=30)
+
+class FermentedChemicalPOCResponse(BaseModel):
+    recipe_title: str
+    preset_id: str
+    drum_volume_liters: float
+    effective_liquid_liters: float
+    headspace_liters: float
+    osmotic_safety_status: str
+    is_osmotic_safe: bool
+    salinity_grams_per_liter: float
+    chemical_ingredients: List[Dict[str, Any]]
+    biological_ingredients: List[Dict[str, Any]]
+    estimated_npk_label: str
+    dissolved_nutrients: Dict[str, float]
+    estimated_total_cost: float
+    estimated_cost_per_liter: float
+    conventional_comparison: Dict[str, Any]
+    fermentation_protocol: List[str]
+    maturation_indicators: List[str]
+    application_guide: Dict[str, Any]
+

@@ -24,12 +24,17 @@
 * ** Ensiklopedia Resep Bokashi Lapangan**: Panduan Bokashi ROTAN 1 Hektar, Bokashi Ayam Sayuran (N-Tinggi), Bokashi Guano Buah (P-Tinggi), Bokashi Sapi Pembenah Tanah, Kompos Sampah Pasar Aerob Cepat, dan Kompos Rumah Tangga Dapur & Ampas Kopi.
 
 ### 2. Pupuk Organik Cair (POC & Bioaktivator)
-* ** Resep Dinamis & Smart Volume Scaler**: 10 Formula spesialis (ROTAN, Urine Kelinci, Asam Amino Ikan FAA, PSB Delima, Bio-Silika Bambu, Kalium-Kalsium Buah, Eco Enzyme, Jamur Jakaba, Empon-Empon Plus, dan Booster Sawit) dengan fitur pengali takaran otomatis proporsional (5L, 10L, 20L, 50L, 100L, 200L hingga kustom).
-* ** Formulator Batch Drum Cerdas**: Kalkulator peracikan batch drum besar dengan proteksi ruang ekspansi gas (*headspace safety margin 15%*), estimasi NPK, protokol *degassing*, dan HPP per liter.
-* ** Kalender Aplikasi & Jadwal Lapangan (HST)**: Manajemen penyemprotan presisi skala lahan (100 m² - 10 Hektar) atau tangki solo (16 L) terintegrasi fase vegetatif s/d panen untuk Padi, Cabai/Tomat, Bawang Merah, Sayuran Daun, Melon, Jagung, dan Kelapa Sawit.
-* ** Bank MOL & Hormon ZPT Nabati**: 8 isolat biakan mandiri (Auksin, Sitokinin, Giberelin, Kalium, Bio-Proteksi).
-* ** Dokter POC & Kompatibilitas Campuran Tangki**: Diagnostik kegagalan fermentasi (bau busuk, khamir putih, tong kembung, dll) beserta panduan ilmiah pencampuran tangki semprot (*tank-mix guide*).
-* ** Uji Mutu Lab (Permentan No. 261/KPTS/SR.310/M/4/2019)**: Verifikasi C-Organik (min 10%), total NPK (2-6%), pH (4-9), dan bebas cemaran patogen *E. coli* & *Salmonella*.
+* **🧪 Resep Dinamis & Smart Volume Scaler**: 10 Formula spesialis (ROTAN, Urine Kelinci, Asam Amino Ikan FAA, PSB Delima, Bio-Silika Bambu, Kalium-Kalsium Buah, Eco Enzyme, Jamur Jakaba, Empon-Empon Plus, dan Booster Sawit) dengan fitur pengali takaran otomatis proporsional (5L, 10L, 20L, 50L, 100L, 200L hingga kustom).
+* **⚗️ POC Kimia Difermentasi (Organo-Kimia Bio-Aktif)**: Fitur biokonversi garam pupuk anorganik (NPK Mutiara 16-16-16, Urea, SP-36, KCl, ZA, MKP, KNO3 Putih, Phonska) menjadi ion hara organik terkelat (*chelated nutrients*) yang ramah hayati:
+  * **Ambang Osmotik Hayati (*Osmotic Safety*)**: Otomatis memvalidasi batas salinitas (<80 g/L) agar mikroba pengurai tetap hidup tanpa lisis seluler.
+  * **Bio-Carrier Pelarut**: Mengintegrasikan molase tebu (sumber karbon glukosa), air kelapa tua (sitokinin & kalium alami), air leri (asam amino & vitamin B), serta inokulan (ROTAN/EM4).
+  * **Preset Unggulan & Custom Mix**: Formula Seimbang Universal, Booster Vegetatif N, Booster Generatif P-K, dan MKP + KNO3 Fruit Booster.
+  * **Penghematan Finansial**: Membandingkan HPP per liter racikan sendiri (~Rp 2.000 - Rp 3.500/L) vs pupuk kimia daun komersial (hemat hingga 70-95%).
+* **🏭 Formulator Batch Drum Cerdas**: Kalkulator peracikan batch drum besar dengan proteksi ruang ekspansi gas (*headspace safety margin 15%*), estimasi NPK, protokol *degassing*, dan HPP per liter.
+* **📅 Kalender Aplikasi & Jadwal Lapangan (HST)**: Manajemen penyemprotan presisi skala lahan (100 m² - 10 Hektar) atau tangki solo (16 L) terintegrasi fase vegetatif s/d panen untuk Padi, Cabai/Tomat, Bawang Merah, Sayuran Daun, Melon, Jagung, dan Kelapa Sawit.
+* **🦠 Bank MOL & Hormon ZPT Nabati**: 8 isolat biakan mandiri (Auksin, Sitokinin, Giberelin, Kalium, Bio-Proteksi).
+* **🩺 Dokter POC & Kompatibilitas Campuran Tangki**: Diagnostik kegagalan fermentasi (bau busuk, khamir putih, tong kembung, dll) beserta panduan ilmiah pencampuran tangki semprot (*tank-mix guide*).
+* **🔬 Uji Mutu Lab (Permentan No. 261/KPTS/SR.310/M/4/2019)**: Verifikasi C-Organik (min 10%), total NPK (2-6%), pH (4-9), dan bebas cemaran patogen *E. coli* & *Salmonella*.
 
 ---
 

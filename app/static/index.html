@@ -294,6 +294,7 @@
         <button class="sub-tab-btn" data-subtarget="liquid-sub-mol">🦠 Bank MOL & Hormon ZPT</button>
         <button class="sub-tab-btn" data-subtarget="liquid-sub-troubleshoot">🩺 Dokter POC & Campuran Tangki</button>
         <button class="sub-tab-btn" data-subtarget="liquid-sub-sni">⚖️ Cek Mutu Lab (Permentan 261)</button>
+        <button class="sub-tab-btn" data-subtarget="liquid-sub-chem-poc">⚗️ POC Kimia Difermentasi (Organo-Kimia)</button>
       </div>
 
       <!-- ===================================== -->
@@ -782,6 +783,175 @@
             <div id="liquid-sni-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
               <div style="font-size:3rem; margin-bottom:10px;">⚖️</div>
               <p>Klik tombol validasi untuk mengecek kesesuaian formula POC terhadap Permentan No. 261/KPTS/SR.310/M/4/2019.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===================================== -->
+      <!-- Sub-tab 7: Fermented Chemical POC (Organo-Kimia) -->
+      <!-- ===================================== -->
+      <div id="liquid-sub-chem-poc" class="liquid-sub-panel" style="display:none;">
+        <div class="card-header">
+          <h3 class="card-title">⚗️ Formulator POC Kimia Difermentasi (Organo-Kimia Bio-Aktif)</h3>
+          <span class="card-badge">Hemat Biaya 50-70% & Ramah Tanah</span>
+        </div>
+        <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:18px;">
+          Metode ilmiah fermentasi mikroorganisme untuk mengubah garam anorganik (NPK Mutiara, Urea, SP-36, KCl, ZA, MKP, KNO3) menjadi senyawa hara terkelat (<em>bio-chelated</em>) yang dingin, bebas sengatan bakar akar, tidak mudah tercuci air hujan, dan melipatgandakan serapan hara.
+        </p>
+
+        <div class="grid-2">
+          <!-- Left: Formulation Inputs -->
+          <div>
+            <div class="form-group">
+              <label class="form-label">Pilih Formula Preset atau Kustom:</label>
+              <select id="chem-preset-select" class="form-select">
+                <option value="npk_mutiara_balanced">1. POC Bio-NPK Mutiara 16-16-16 Universal (Seimbang Vegetatif-Generatif)</option>
+                <option value="urea_vegetatif_booster">2. POC Bio-Vegetatif Daun & Anakan (Tinggi N Urea + NPK + ZA)</option>
+                <option value="generatif_pk_booster">3. POC Bio-Generatif Bunga & Buah Lebat (NPK + SP-36 + KCl)</option>
+                <option value="mkp_kno3_fruit_booster">4. POC Sultan Booster Buah Manis Bebas Klor (MKP + KNO3 Putih + NPK)</option>
+                <option value="custom">5. Racikan Kustom Mandiri (Bebas Tentukan Jenis & Berat Pupuk Kimia)</option>
+              </select>
+            </div>
+
+            <!-- Volume Scaler -->
+            <div class="form-group">
+              <label class="form-label">Kapasitas Wadah Drum / Tong Fermentasi:</label>
+              <div class="chip-group" id="chem-vol-chips" style="margin-bottom:8px;">
+                <button type="button" class="chip-btn" data-cvol="20">20 L</button>
+                <button type="button" class="chip-btn" data-cvol="50">50 L</button>
+                <button type="button" class="chip-btn active" data-cvol="100">100 L</button>
+                <button type="button" class="chip-btn" data-cvol="200">200 L</button>
+              </div>
+              <div style="display:flex; align-items:center; gap:8px;">
+                <input type="number" id="chem-vol-input" class="form-input" value="100" min="10" max="2000" step="5">
+                <span style="font-size:0.85rem; color:var(--text-muted); font-weight:600;">Liter</span>
+              </div>
+              <span style="font-size:0.75rem; color:var(--text-muted);">Sistem otomatis mengalokasikan 15% ruang kosong atas (headspace) untuk akumulasi gas fermentasi.</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Bioaktivator Inokulan Starter:</label>
+              <select id="chem-starter-select" class="form-select">
+                <option value="ROTAN Rumen Sapi">Biang ROTAN (Cairan Rumen Sapi - Bakteri Selulolitik & Penambat N)</option>
+                <option value="EM4 Pertanian">EM4 Pertanian (Lactobacillus & Khamir Ragi)</option>
+                <option value="MOL Mikroba Lokal">MOL Rebung / Bonggol Pisang / Keong Mas</option>
+                <option value="Trichoderma sp.">Biang Trichoderma sp. (Pelarut Fosfat & Bio-Fungisida)</option>
+              </select>
+            </div>
+
+            <!-- Custom Chemical Inputs (Shown only if custom preset selected) -->
+            <div id="chem-custom-box" style="display:none; background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:12px; margin-bottom:14px;">
+              <strong style="font-size:0.85rem; color:#0f172a; display:block; margin-bottom:8px;">🧪 Tentukan Takaran Pupuk Kimia (kg):</strong>
+              <div class="grid-2" style="font-size:0.82rem; gap:8px;">
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#3b82f6;">NPK Mutiara 16-16-16 (kg)</label>
+                  <input type="number" id="chem-input-npk" class="form-input" value="3.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#10b981;">Urea 46% N (kg)</label>
+                  <input type="number" id="chem-input-urea" class="form-input" value="2.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#f59e0b;">SP-36 / Fosfat (kg)</label>
+                  <input type="number" id="chem-input-sp36" class="form-input" value="1.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#ef4444;">KCl / Kalium (kg)</label>
+                  <input type="number" id="chem-input-kcl" class="form-input" value="1.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#06b6d4;">ZA + Sulfur (kg)</label>
+                  <input type="number" id="chem-input-za" class="form-input" value="0.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+                <div>
+                  <label style="font-size:0.78rem; font-weight:600; color:#ec4899;">MKP / KNO3 (kg)</label>
+                  <input type="number" id="chem-input-mkp" class="form-input" value="0.0" min="0" step="0.5" style="padding:4px 8px;">
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-primary" id="btn-calc-chem-poc" style="width:100%; font-weight:700;">
+              ⚗️ Hitung Resep Organo-Kimia & Protokol Fermentasi
+            </button>
+          </div>
+
+          <!-- Right: Results and Biological Balance -->
+          <div>
+            <div id="chem-poc-placeholder" style="text-align:center; padding:50px 20px; color:var(--text-muted);">
+              <div style="font-size:3.5rem; margin-bottom:10px;">⚗️</div>
+              <p>Pilih preset atau racikan pupuk kimia Anda, lalu klik tombol hitung untuk melihat komposisi biologis, estimasi NPK terlarut, dan analisis hemat biaya.</p>
+            </div>
+
+            <div id="chem-poc-results" style="display:none;">
+              <div class="card-header" style="margin-bottom:12px;">
+                <h4 class="card-title" id="chem-res-title" style="font-size:1.05rem; color:#0f172a;">POC Bio-NPK Mutiara</h4>
+                <span class="card-badge" id="chem-res-badge">100 L Drum</span>
+              </div>
+
+              <!-- Osmotic Safety Banner -->
+              <div id="chem-osmotic-banner" style="padding:10px 14px; border-radius:var(--radius-sm); margin-bottom:12px; font-size:0.85rem; font-weight:600;"></div>
+
+              <!-- Top Metrics 4-col -->
+              <div class="grid-4" style="gap:8px; margin-bottom:14px;">
+                <div class="metric-card" style="padding:10px 8px;">
+                  <div class="metric-title" style="font-size:0.72rem;">Volume Efektif</div>
+                  <div class="metric-value" id="chem-metric-vol" style="font-size:1.15rem; color:#047857;">85 L</div>
+                  <div class="metric-sub" id="chem-metric-headspace" style="font-size:0.7rem;">Headspace: 15 L</div>
+                </div>
+                <div class="metric-card" style="padding:10px 8px;">
+                  <div class="metric-title" style="font-size:0.72rem;">Salinitas Garam</div>
+                  <div class="metric-value" id="chem-metric-salinity" style="font-size:1.15rem; color:#0284c7;">58.8 g/L</div>
+                  <div class="metric-sub" style="font-size:0.7rem;">Batas Aman: &lt;80 g/L</div>
+                </div>
+                <div class="metric-card" style="padding:10px 8px;">
+                  <div class="metric-title" style="font-size:0.72rem;">Estimasi NPK Cair</div>
+                  <div class="metric-value" id="chem-metric-npk" style="font-size:0.92rem; color:#d97706; line-height:1.2; margin:3px 0;">0.94 - 0.94 - 0.94</div>
+                  <div class="metric-sub" style="font-size:0.7rem;">Bio-Chelated</div>
+                </div>
+                <div class="metric-card" style="padding:10px 8px;">
+                  <div class="metric-title" style="font-size:0.72rem;">HPP per Liter</div>
+                  <div class="metric-value" id="chem-metric-cost" style="font-size:1.15rem; color:#059669;">Rp 1.820</div>
+                  <div class="metric-sub" id="chem-metric-savings" style="font-size:0.7rem; color:#16a34a; font-weight:700;">Hemat 62%</div>
+                </div>
+              </div>
+
+              <!-- Ingredients Table -->
+              <div style="font-size:0.85rem; font-weight:700; color:#0f172a; margin-bottom:6px;">📋 Komposisi Bahan Pupuk Kimia & Biologis:</div>
+              <table class="sni-table" style="font-size:0.8rem; margin-bottom:12px;">
+                <thead>
+                  <tr>
+                    <th>Bahan Formulasi</th>
+                    <th>Takaran</th>
+                    <th>Fungsi / Peran Agroteknis</th>
+                    <th>Estimasi Biaya</th>
+                  </tr>
+                </thead>
+                <tbody id="chem-ingredients-tbody"></tbody>
+              </table>
+
+              <!-- SOP Fermentasi & Dosis Aplikasi -->
+              <div style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:var(--radius-sm); padding:12px; margin-bottom:10px;">
+                <strong style="color:#047857; font-size:0.85rem;">⏳ SOP Fermentasi & Degassing (7 - 10 Hari):</strong>
+                <ol id="chem-protocol-list" style="margin:6px 0 10px 18px; font-size:0.8rem; color:#334155; line-height:1.4;"></ol>
+                <div style="font-size:0.8rem; color:#64748b; font-style:italic;" id="chem-maturation-text"></div>
+              </div>
+
+              <div style="background:#ecfdf5; border:1px solid #a7f3d0; border-radius:var(--radius-sm); padding:12px;">
+                <strong style="color:#065f46; font-size:0.85rem;">🚜 Panduan Dosis & Metode Aplikasi Lapangan:</strong>
+                <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:6px; font-size:0.82rem;">
+                  <div style="flex:1; min-width:200px;">
+                    <div style="font-weight:700; color:#047857;">💧 Aplikasi Kocor (Akar & Piringan):</div>
+                    <p style="margin:2px 0; color:#064e3b;" id="chem-dose-kocor">10 - 20 ml / Liter air (1 gelas aqua per 10 L air)</p>
+                    <span style="font-size:0.75rem; color:#64748b;">Kocor 200 ml per lubang tanam tiap 7–10 hari</span>
+                  </div>
+                  <div style="flex:1; min-width:200px;">
+                    <div style="font-weight:700; color:#047857;">🚿 Aplikasi Semprot (Foliar Daun):</div>
+                    <p style="margin:2px 0; color:#064e3b;" id="chem-dose-semprot">3 - 5 ml / Liter air (50 - 80 ml / tangki 16L)</p>
+                    <span style="font-size:0.75rem; color:#64748b;">Wajib disaring kain kasa halus. Semprot pagi 06.00-09.00</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>

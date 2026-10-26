@@ -447,6 +447,7 @@ function initLiquidModule() {
   initPOCRecipesModule();
   initMOLModule();
   initPOCTroubleshootModule();
+  initFermentedChemicalPOCModule();
 
   // SNI Check
   document.getElementById('btn-check-liquid-sni')?.addEventListener('click', checkLiquidSNI);
@@ -1276,6 +1277,183 @@ function renderEconomicsChart(data) {
  }
  }
  });
+// 3.6 Fermented Chemical POC (Organo-Kimia) Formulator
+function initFermentedChemicalPOCModule() {
+  const presetSelect = document.getElementById('chem-preset-select');
+  const customBox = document.getElementById('chem-custom-box');
+  const volInput = document.getElementById('chem-vol-input');
+  const volChips = document.querySelectorAll('#chem-vol-chips .chip-btn');
+  const calcBtn = document.getElementById('btn-calc-chem-poc');
+
+  // Toggle custom box
+  presetSelect?.addEventListener('change', () => {
+    if (presetSelect.value === 'custom') {
+      if (customBox) customBox.style.display = 'block';
+    } else {
+      if (customBox) customBox.style.display = 'none';
+    }
+    calculateFermentedChemicalPOC();
+  });
+
+  // Volume Chips
+  volChips.forEach(chip => {
+    chip.addEventListener('click', () => {
+      volChips.forEach(c => c.classList.remove('active'));
+      chip.classList.add('active');
+      const vol = parseFloat(chip.getAttribute('data-cvol') || '100');
+      if (volInput) {
+        volInput.value = vol;
+        calculateFermentedChemicalPOC();
+      }
+    });
+  });
+
+  volInput?.addEventListener('input', debounce(calculateFermentedChemicalPOC, 400));
+  document.getElementById('chem-starter-select')?.addEventListener('change', calculateFermentedChemicalPOC);
+  calcBtn?.addEventListener('click', calculateFermentedChemicalPOC);
+
+  // Custom inputs listeners
+  ['chem-input-npk', 'chem-input-urea', 'chem-input-sp36', 'chem-input-kcl', 'chem-input-za', 'chem-input-mkp'].forEach(id => {
+    document.getElementById(id)?.addEventListener('input', debounce(calculateFermentedChemicalPOC, 400));
+  });
+
+  // Run initial calculation
+  calculateFermentedChemicalPOC();
+}
+
+async function calculateFermentedChemicalPOC() {
+  const preset = document.getElementById('chem-preset-select')?.value || 'npk_mutiara_balanced';
+  const vol = parseFloat(document.getElementById('chem-vol-input')?.value || '100');
+  const starter = document.getElementById('chem-starter-select')?.value || 'ROTAN Rumen Sapi';
+
+  let customChemicals = null;
+  if (preset === 'custom') {
+    customChemicals = [
+      { name: 'NPK Mutiara 16-16-16', weight_kg: parseFloat(document.getElementById('chem-input-npk')?.value || '0') },
+      { name: 'Urea (46-0-0)', weight_kg: parseFloat(document.getElementById('chem-input-urea')?.value || '0') },
+      { name: 'SP-36 (0-36-0)', weight_kg: parseFloat(document.getElementById('chem-input-sp36')?.value || '0') },
+      { name: 'KCl / MOP (0-0-60)', weight_kg: parseFloat(document.getElementById('chem-input-kcl')?.value || '0') },
+      { name: 'ZA (21-0-0 + 24S)', weight_kg: parseFloat(document.getElementById('chem-input-za')?.value || '0') },
+      { name: 'MKP (0-52-34)', weight_kg: parseFloat(document.getElementById('chem-input-mkp')?.value || '0') }
+    ].filter(item => item.weight_kg > 0);
+  }
+
+  const btn = document.getElementById('btn-calc-chem-poc');
+  if (btn) btn.innerHTML = '⚗️ Menghitung Formulasi Organo-Kimia...';
+
+  try {
+    const res = await fetch('/api/liquid/fermented-chemical-poc', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        drum_volume_liters: vol,
+        recipe_preset: preset,
+        chemical_fertilizers: customChemicals,
+        starter_bioaktivator: starter,
+        fermentation_days: 10
+      })
+    });
+
+    if (!res.ok) throw new Error('Gagal menghitung POC kimia terfermentasi');
+    const data = await res.json();
+    renderFermentedChemicalPOCResult(data);
+  } catch (err) {
+    console.error('Chemical POC error:', err);
+  } finally {
+    if (btn) btn.innerHTML = '⚗️ Hitung Resep Organo-Kimia & Protokol Fermentasi';
+  }
+}
+
+function renderFermentedChemicalPOCResult(data) {
+  const placeholder = document.getElementById('chem-poc-placeholder');
+  const results = document.getElementById('chem-poc-results');
+  if (placeholder) placeholder.style.display = 'none';
+  if (results) results.style.display = 'block';
+
+  // Title & badge
+  const titleEl = document.getElementById('chem-res-title');
+  if (titleEl) titleEl.textContent = data.recipe_title;
+  const badgeEl = document.getElementById('chem-res-badge');
+  if (badgeEl) badgeEl.textContent = `${data.drum_volume_liters} L Drum`;
+
+  // Osmotic banner
+  const banner = document.getElementById('chem-osmotic-banner');
+  if (banner) {
+    if (data.is_osmotic_safe) {
+      banner.style.background = '#ecfdf5';
+      banner.style.color = '#065f46';
+      banner.style.border = '1px solid #a7f3d0';
+      banner.innerHTML = `🛡️ <strong>Status Biologis:</strong> ${data.osmotic_safety_status}`;
+    } else {
+      banner.style.background = '#fef2f2';
+      banner.style.color = '#991b1b';
+      banner.style.border = '1px solid #fecaca';
+      banner.innerHTML = `⚠️ <strong>Peringatan Salinitas:</strong> ${data.osmotic_safety_status}`;
+    }
+  }
+
+  // Metrics
+  document.getElementById('chem-metric-vol').textContent = `${data.effective_liquid_liters} L`;
+  document.getElementById('chem-metric-headspace').textContent = `Headspace: ${data.headspace_liters} L (15%)`;
+  document.getElementById('chem-metric-salinity').textContent = `${data.salinity_grams_per_liter} g/L`;
+  document.getElementById('chem-metric-npk').textContent = `${data.dissolved_nutrients.n_pct}% - ${data.dissolved_nutrients.p2o5_pct}% - ${data.dissolved_nutrients.k2o_pct}%`;
+  document.getElementById('chem-metric-cost').textContent = `Rp ${data.estimated_cost_per_liter.toLocaleString()}`;
+  document.getElementById('chem-metric-savings').textContent = `Hemat ${data.conventional_comparison.cost_savings_pct}%`;
+
+  // Ingredients table
+  const tbody = document.getElementById('chem-ingredients-tbody');
+  if (tbody) {
+    tbody.innerHTML = '';
+    
+    // Chemicals
+    data.chemical_ingredients.forEach(c => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong style="color:#0f172a;">${c.name}</strong> <span style="font-size:0.75rem; color:#64748b;">(Pupuk Kimia)</span></td>
+        <td style="color:#0284c7; font-weight:700;">${c.weight_kg} kg</td>
+        <td style="font-size:0.8rem; color:#475569;">Suplai hara N: ${c.n_pct}%, P2O5: ${c.p2o5_pct}%, K2O: ${c.k2o_pct}%</td>
+        <td style="font-size:0.82rem; color:#334155;">Rp ${c.cost.toLocaleString()}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    // Biologicals
+    data.biological_ingredients.forEach(b => {
+      const tr = document.createElement('tr');
+      tr.style.background = '#f8fafc';
+      tr.innerHTML = `
+        <td><strong style="color:#047857;">${b.name}</strong></td>
+        <td style="color:#059669; font-weight:700;">${b.amount} ${b.unit}</td>
+        <td style="font-size:0.8rem; color:#475569;">${b.role}</td>
+        <td style="font-size:0.82rem; color:#334155;">${b.cost > 0 ? 'Rp ' + b.cost.toLocaleString() : 'Gratis / Murah'}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  // Protocols
+  const protocolList = document.getElementById('chem-protocol-list');
+  if (protocolList) {
+    protocolList.innerHTML = '';
+    data.fermentation_protocol.forEach(step => {
+      const li = document.createElement('li');
+      li.style.marginBottom = '4px';
+      li.textContent = step;
+      protocolList.appendChild(li);
+    });
+  }
+
+  // Maturation text
+  const matText = document.getElementById('chem-maturation-text');
+  if (matText) {
+    matText.innerHTML = `<strong>Tanda Fermentasi Berhasil:</strong> ${data.maturation_indicators.join(' | ')}`;
+  }
+
+  // Dosing
+  const doseKocor = document.getElementById('chem-dose-kocor');
+  if (doseKocor) doseKocor.textContent = data.application_guide.root_drench.dose;
+  const doseSemprot = document.getElementById('chem-dose-semprot');
+  if (doseSemprot) doseSemprot.textContent = data.application_guide.foliar_spray.dose;
 }
 
 // Utility: Debounce function for live reactive inputs

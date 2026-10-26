@@ -14,11 +14,13 @@ from app.services.solid_fertilizer import calculate_solid_fertilizer, ORGANIC_DA
 from app.models.schemas import (
     SolidCalculationRequest, MaterialInput,
     LiquidDoseRequest, LiquidSNIRequest, EconomicsRequest,
-    SolidOptimizationRequest
+    SolidOptimizationRequest,
+    FermentedChemicalPOCRequest, ChemicalFertilizerInput
 )
 from app.services.liquid_fertilizer import calculate_liquid_dosage, check_liquid_sni, POC_RECIPES_DATABASE
 from app.services.optimizer import optimize_solid_formulation
 from app.services.economics import calculate_economics
+from app.services.fermented_chemical_poc import calculate_fermented_chemical_poc, get_chemical_catalog
 
 print("=== 1. Testing Solid Fertilizer Mass Balance (Dry Basis vs Wet Input) ===")
 # Exact test case from user audit: 100 kg Kotoran Sapi (moisture 65%, N 1.4% DW)
@@ -206,4 +208,44 @@ print(f"   Waste Optimizer Target C/N: {opt_waste_res.target_c_n_ratio} | Achiev
 assert abs(sum(m.recommended_wet_kg for m in opt_waste_res.materials) - 500.0) < 0.2
 print("   PASS: All 10 organic waste variants calculate correctly and integrate seamlessly with SLSQP Optimizer!")
 
-print("\nALL AUDIT & EXTENDED POC/WASTE TEST CASES PASSED WITH 100% SUCCESS!")
+print("\n=== 11. Testing Fermented Chemical POC (Organo-Kimia) Calculation Engine ===")
+chem_catalog = get_chemical_catalog()
+print(f"   Chemical Fertilizer Catalog Items: {len(chem_catalog)}")
+assert len(chem_catalog) >= 8
+
+# Test 1: NPK Mutiara 16-16-16 Balanced Preset (100L Drum)
+chem_req_balanced = FermentedChemicalPOCRequest(
+    drum_volume_liters=100.0,
+    recipe_preset="npk_mutiara_balanced"
+)
+chem_res_balanced = calculate_fermented_chemical_poc(chem_req_balanced)
+print(f"   Preset: {chem_res_balanced.recipe_title}")
+print(f"   Effective Liquid: {chem_res_balanced.effective_liquid_liters} L | Headspace: {chem_res_balanced.headspace_liters} L")
+print(f"   Salinity: {chem_res_balanced.salinity_grams_per_liter} g/L | Safe: {chem_res_balanced.is_osmotic_safe}")
+print(f"   NPK: {chem_res_balanced.estimated_npk_label}")
+print(f"   Cost/L: Rp {chem_res_balanced.estimated_cost_per_liter:,.0f} | Savings: {chem_res_balanced.conventional_comparison['cost_savings_pct']}%")
+
+assert chem_res_balanced.effective_liquid_liters == 85.0
+assert chem_res_balanced.headspace_liters == 15.0
+assert chem_res_balanced.is_osmotic_safe == True
+assert chem_res_balanced.dissolved_nutrients["n_pct"] > 0.5
+assert chem_res_balanced.conventional_comparison["cost_savings_pct"] >= 50.0
+
+# Test 2: Custom Chemical Formulation (Urea + SP36 + KCl)
+chem_req_custom = FermentedChemicalPOCRequest(
+    drum_volume_liters=50.0,
+    recipe_preset="custom",
+    chemical_fertilizers=[
+        ChemicalFertilizerInput(name="Urea (46-0-0)", weight_kg=2.0),
+        ChemicalFertilizerInput(name="SP-36 (0-36-0)", weight_kg=1.0),
+        ChemicalFertilizerInput(name="KCl / MOP (0-0-60)", weight_kg=1.0)
+    ]
+)
+chem_res_custom = calculate_fermented_chemical_poc(chem_req_custom)
+print(f"   Custom Formula Effective Vol: {chem_res_custom.effective_liquid_liters} L")
+print(f"   Custom NPK Label: {chem_res_custom.estimated_npk_label}")
+assert chem_res_custom.effective_liquid_liters == 42.5
+assert len(chem_res_custom.chemical_ingredients) == 3
+print("   PASS: Fermented Chemical POC engine correctly handles presets, custom NPK salts, salinity, and bio-carrier scaling!")
+
+print("\nALL AUDIT & EXTENDED POC/WASTE/CHEM TEST CASES PASSED WITH 100% SUCCESS!")

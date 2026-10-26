@@ -14,6 +14,7 @@ from app.models.schemas import (
     POCBatchBrewRequest, POCBatchBrewResponse,
     POCFieldScheduleRequest, POCFieldScheduleResponse,
     POCTroubleshootItem, POCTankMixItem,
+    FermentedChemicalPOCRequest, FermentedChemicalPOCResponse,
     EconomicsRequest, EconomicsResponse
 )
 from app.services.solid_fertilizer import (
@@ -23,6 +24,9 @@ from app.services.liquid_fertilizer import (
     POC_RECIPES_DATABASE, MOL_COLLECTION, calculate_liquid_dosage, check_liquid_sni,
     calculate_poc_batch_brew, calculate_field_schedule,
     get_troubleshoot_database, get_tank_mix_guide
+)
+from app.services.fermented_chemical_poc import (
+    get_chemical_catalog, calculate_fermented_chemical_poc
 )
 from app.services.optimizer import optimize_solid_formulation
 from app.services.economics import calculate_economics
@@ -144,6 +148,17 @@ async def get_troubleshooting_endpoint():
 @app.get("/api/liquid/tank-mix-guide", response_model=List[POCTankMixItem])
 async def get_tank_mix_endpoint():
     return get_tank_mix_guide()
+
+@app.get("/api/liquid/chemical-fertilizers")
+async def get_chemical_fertilizers_catalog_endpoint():
+    return {"chemicals": get_chemical_catalog()}
+
+@app.post("/api/liquid/fermented-chemical-poc", response_model=FermentedChemicalPOCResponse)
+async def calculate_fermented_chemical_poc_endpoint(req: FermentedChemicalPOCRequest):
+    try:
+        return calculate_fermented_chemical_poc(req)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=str(e))
 
 # --- BUSINESS ECONOMICS ENDPOINTS ---
 
