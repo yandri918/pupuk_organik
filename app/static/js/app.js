@@ -1277,6 +1277,8 @@ function renderEconomicsChart(data) {
  }
  }
  });
+}
+
 // 3.6 Fermented Chemical POC (Organo-Kimia) Formulator
 function initFermentedChemicalPOCModule() {
   const presetSelect = document.getElementById('chem-preset-select');
@@ -1349,7 +1351,7 @@ async function calculateFermentedChemicalPOC() {
         drum_volume_liters: vol,
         recipe_preset: preset,
         chemical_fertilizers: customChemicals,
-        starter_bioaktivator: starter,
+        starter_bioactivator: starter,
         fermentation_days: 10
       })
     });
