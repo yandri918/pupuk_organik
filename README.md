@@ -3,6 +3,8 @@
 **Platform Cerdas Formulasi & Optimasi Pupuk Organik (Padat & Cair)** 
 *Ditenagai Backend Python (FastAPI), Heuristic/AI Optimizer, dan Validasi Standar SNI*
 
+🌐 **Live Demo Website**: [https://pupuk-organik.onrender.com/](https://pupuk-organik.onrender.com/)
+
 ---
 
 ## Ringkasan Proyek
